@@ -1,4 +1,4 @@
-package com.ducks.goodsduck.admin;
+package com.ducks.goodsduck.admin.test;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

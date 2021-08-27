@@ -4,6 +4,10 @@ on:
 #   pull_request:
 #     branches: [ develop ]
 
+name: (Develop Server) Deploy Spring boot to Amazon EC2
+env:
+  PROJECT_NAME: be-admin_spring-boot
+
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -24,18 +28,21 @@ jobs:
       run: ./gradlew build
 
     - name: Make zip file
-      run: zip -qq -r ./$GITHUB_SHA.zip .
+#      run: zip -qq -r ./$GITHUB_SHA.zip .
+      run: zip -qq -r ./$PROJECT_NAME.zip .
       shell: bash
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
-      with:
+      env:
         aws-access-key-id: ${{ secrets.AWS_DEPLOY_DEVELOP_IAM_KEY }}
         aws-secret-access-key: ${{ secrets.AWS_DEPLOY_DEVELOP_IAM_SECRET }}
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://goodsduck-admin/$PROJECT_NAME/$GITHUB_SHA.zip
+#      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://goodsduck-admin/$PROJECT_NAME/$GITHUB_SHA.zip
+      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://goodsduck-admin/$PROJECT_NAME/$PROJECT_NAME.zip
 
     - name: Code Deploy
-      run: aws deploy create-deployment --application-name be-admin_spring-boot --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name be-admin_spring-boot_group --s3-location bucket=goodsduck-admin,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+#      run: aws deploy create-deployment --application-name be-admin_spring-boot --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name be-admin_spring-boot_group --s3-location bucket=goodsduck-admin,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+      run: aws deploy create-deployment --application-name be-admin_spring-boot --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name be-admin_spring-boot_group --s3-location bucket=goodsduck-admin,bundleType=zip,key=$PROJECT_NAME/$PROJECT_NAME.zip

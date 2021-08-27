@@ -3,7 +3,7 @@
 REPOSITORY=/opt/be-admin_spring-boot
 cd $REPOSITORY
 
-APP_NAME=action_codedeploy
+APP_NAME=be-admin_spring-boot
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 

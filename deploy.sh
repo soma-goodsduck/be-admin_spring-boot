@@ -4,7 +4,7 @@ REPOSITORY=/opt/be-admin_spring-boot
 cd $REPOSITORY
 
 APP_NAME=be-admin_spring-boot
-JAR_PATH=$REPOSITORY/build/libs
+JAR_PATH=$REPOSITORY/build/libs/
 
 CURRENT_PID=$(pgrep -f $APP_NAME)
 

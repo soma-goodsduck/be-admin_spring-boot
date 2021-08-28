@@ -8,7 +8,7 @@ JAR_PATH=$REPOSITORY/build/libs/
 
 CURRENT_PID=$(pgrep -f $APP_NAME)
 
-echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
+echo "현재 구동 중인 애플리케이션 pid : $CURRENT_PID"
 
 if [ -z "$CURRENT_PID" ]
 then
@@ -19,9 +19,10 @@ else
   sleep 5
 fi
 
-echo "> JAR PATH: $JAR_PATH"
 echo "> $JAR_PATH 배포"
 
 JAR_NAME=$(ls $JAR_PATH | grep '.jar' | tail -n 1)
 
-nohup java -jar $JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
+#nohup java -jar $JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
+
+nohup java -jar $JAR_NAME > /dev/null 2> /dev/null < /dev/null &

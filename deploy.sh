@@ -57,5 +57,5 @@ echo "> $JAR_PATH 배포"
 JAR_PATH=$REPOSITORY/build/libs
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
 
-nohup $JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
+nohup java -jar $JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
 

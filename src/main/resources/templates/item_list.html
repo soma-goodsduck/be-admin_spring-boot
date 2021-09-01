@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- search content -->
+            <div class="card shadow m-5 p-4" style="width:400px">
+                <form action="/item" method="get">
+                    <input type="text" name="search" id="search" class="p-2 me-2" value="아이템 번호로 검색" onclick="erase()" style="width:85%;">
+                    <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- item table content -->
+            <div class="card shadow m-5 p-5">
+                <table class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Trade Status</th>
+                        <th scope="col">Idol Group</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item,i:${items}" class="align-middle">
+                        <th scope="row" th:text="${item.id}">ID</th>
+                        <td th:text="${item.name}">Name</td>
+                        <td th:text="${item.price}">Price</td>
+                        <td th:text="${item.tradeStatus}">Trade Status</td>
+                        <td th:text="${item.idolGroup}">Idol Group</td>
+                        <td>
+                            <img th:src="${item.imageURL}" width="100rem" height="100rem">
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" name="deleteBtn" th:onclick="'location.href=\'/item/' + ${item.id} + '\''">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    function erase() {
+        document.getElementById("search").value=null;
+    }
+
+    $("#deleteBtn").click(function () {
+
+        
+
+    })
+</script>
+
+</html>

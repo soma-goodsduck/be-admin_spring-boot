@@ -1,7 +1,7 @@
-package com.ducks.goodsduck.commons.repository.image;
+package com.ducks.goodsduck.admin.repository.image;
 
-import com.ducks.goodsduck.commons.model.entity.Image.Image;
-import com.ducks.goodsduck.commons.model.entity.Image.QImage;
+import com.ducks.goodsduck.admin.model.entity.Image.Image;
+import com.ducks.goodsduck.admin.model.entity.Image.QImage;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;

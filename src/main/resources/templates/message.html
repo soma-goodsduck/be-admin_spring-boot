@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<script layout:fragment="script" th:inline="javascript">
+    /* <![CDATA[ */
+    var message = /*[[${message}]]*/;
+    /* ]]> */
+
+    alert(message);
+    window.location.href = "/idol-groups";
+</script>
+
+</html>

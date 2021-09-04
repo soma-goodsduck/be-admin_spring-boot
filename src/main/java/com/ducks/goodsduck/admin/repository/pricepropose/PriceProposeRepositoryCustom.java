@@ -1,8 +1,8 @@
-package com.ducks.goodsduck.commons.repository;
+package com.ducks.goodsduck.admin.repository.pricepropose;
 
-import com.ducks.goodsduck.commons.model.entity.Item;
-import com.ducks.goodsduck.commons.model.entity.PricePropose;
-import com.ducks.goodsduck.commons.model.enums.PriceProposeStatus;
+import com.ducks.goodsduck.admin.model.entity.Item;
+import com.ducks.goodsduck.admin.model.entity.PricePropose;
+import com.ducks.goodsduck.admin.model.enums.PriceProposeStatus;
 import com.querydsl.core.Tuple;
 import org.springframework.stereotype.Repository;
 

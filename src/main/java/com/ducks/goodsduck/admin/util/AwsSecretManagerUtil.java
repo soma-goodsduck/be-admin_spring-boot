@@ -1,32 +1,40 @@
 package com.ducks.goodsduck.admin.util;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
+import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
-public class AwsSecretMangerUtil {
+public class AwsSecretManagerUtil {
+
+    private static String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+    private static String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
 
     // Use this code snippet in your app.
     // If you need more information about configurations or implementing the sample code, visit the AWS docs:
     // https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-samples.html#prerequisites
-
-    public static String getSecret() {
+    public static JSONObject getSecret() {
 
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 
         // Create a Secrets Manager client
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
         AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(region)
                 .build();
 
         // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
         // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
         // We rethrow the exception by default.
-        String secret, decodedBinarySecret;
+        String secret, decodedBinarySecret, awsSecret;
         GetSecretValueRequest getSecretValueRequest = new GetSecretValueRequest()
                 .withSecretId(secretName);
         GetSecretValueResult getSecretValueResult = null;
@@ -59,13 +67,13 @@ public class AwsSecretMangerUtil {
         // Depending on whether the secret is a string or binary, one of these fields will be populated.
         if (getSecretValueResult.getSecretString() != null) {
             secret = getSecretValueResult.getSecretString();
-            return secret;
+            awsSecret = secret;
         }
         else {
             decodedBinarySecret = new String(Base64.getDecoder().decode(getSecretValueResult.getSecretBinary()).array());
-            return decodedBinarySecret;
+            awsSecret = decodedBinarySecret;
         }
 
-        // Your code goes here.
+        return new JSONObject(awsSecret);
     }
 }

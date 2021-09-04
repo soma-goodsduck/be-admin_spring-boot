@@ -1,7 +1,7 @@
-package com.ducks.goodsduck.commons.repository;
+package com.ducks.goodsduck.admin.repository.useritem;
 
-import com.ducks.goodsduck.commons.model.entity.Item;
-import com.ducks.goodsduck.commons.model.entity.UserItem;
+import com.ducks.goodsduck.admin.model.entity.Item;
+import com.ducks.goodsduck.admin.model.entity.UserItem;
 import com.querydsl.core.Tuple;
 import org.springframework.stereotype.Repository;
 

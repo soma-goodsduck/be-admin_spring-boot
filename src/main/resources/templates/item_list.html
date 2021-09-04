@@ -15,6 +15,8 @@
                 </form>
             </div>
 
+
+
             <!-- item table content -->
             <div class="card shadow m-5 p-5">
                 <table class="table table-striped text-center">
@@ -30,7 +32,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="item,i:${items}" class="align-middle">
+                    <tr th:each="item,i:${items}" class="align-middle" th:id="${item.id}">
                         <th scope="row" th:text="${item.id}">ID</th>
                         <td th:text="${item.name}">Name</td>
                         <td th:text="${item.price}">Price</td>
@@ -40,13 +42,14 @@
                             <img th:src="${item.imageURL}" width="100rem" height="100rem">
                         </td>
                         <td>
-                            <button class="btn btn-danger" name="deleteBtn" th:onclick="'location.href=\'/item/' + ${item.id} + '\''">
+                            <button class="btn btn-danger" id="deleteBtn" th:onclick="'deleteItem('+${item.id}+')'">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <h5 th:if="${success} == -1" class="text-center mt-4 text-danger">검색된 아이템이 없습니다.</h5>
             </div>
 
         </div>
@@ -59,11 +62,24 @@
         document.getElementById("search").value=null;
     }
 
-    $("#deleteBtn").click(function () {
-
-        
-
-    })
+    function deleteItem(itemId) {
+        if(confirm("삭제하시겠습니까?")) {
+            $.ajax({
+                type: "get",
+                url: "/item/delete/" + itemId,
+            })
+            .done(function(data) {
+                if(data.success == 1) {
+                    $("#" + itemId).hide();
+                }
+            })
+            .fail(function(data, error) {
+                console.log(error);
+            })
+        } else {
+            return false;
+        }
+    }
 </script>
 
 </html>

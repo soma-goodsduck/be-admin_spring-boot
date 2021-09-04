@@ -5,34 +5,14 @@
 
     <!-- content wrapper -->
     <div id="content-wrapper">
-        <div class="container-fluid d-flex justify-content-center">
+        <div class="container-fluid d-flex justify-content-center" style="width:60%">
 
-            <!-- idolGroup add form content -->
-            <div class="card shadow m-5 p-5" style="width: 30%">
-                <form action="/idol-group/add" method="post" enctype="multipart/form-data">
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">Name</h5>
-                        <input type="text" class="form-control" name="name">
-                    </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">KorName</h5>
-                        <input type="text" class="form-control" name="korName">
-                    </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">EngName</h5>
-                        <input type="text" class="form-control" name="engName">
-                    </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">Image</h5>
-                        <input type="file" class="form-control-file" name="multipartFile">
-                    </div>
-                    <button type="button" class="btn btn-danger float-end me-5" onclick="location.href='/idol-groups'">
-                        <i class="fas fa-times fa-lg"></i>
-                    </button>
-                    <button class="btn btn-primary float-end me-3">
-                        <i class="fas fa-check"></i>
-                    </button>
-                </form>
+            <!-- idolGroup select form content -->
+            <div class="card2 shadow m-5 p-5 d-flex flex-wrap justify-content-center">
+                <button th:each="idolGroup,i:${idolGroups}" id="groupselect" class="btn border-info border-2 m-3"
+                th:onclick="'location.href=\'/idol-member/add/'+${idolGroup.id}+'\''">
+                    <p th:text="${idolGroup.name}" class="m-3"></p>
+                </button>
             </div>
 
         </div>

@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public class PriceProposeRepositoryCustomImpl implements PriceProposeRepositoryCustom {
+public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     private QPricePropose pricePropose = QPricePropose.pricePropose;
     private QUser user = QUser.user;
 
-    public PriceProposeRepositoryCustomImpl(EntityManager em) {
+    public PriceProposeRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

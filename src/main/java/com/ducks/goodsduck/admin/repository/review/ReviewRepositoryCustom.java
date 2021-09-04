@@ -1,11 +1,9 @@
-package com.ducks.goodsduck.commons.repository.review;
+package com.ducks.goodsduck.admin.repository.review;
 
-import com.ducks.goodsduck.commons.model.dto.review.ReviewBackResponse;
-import com.ducks.goodsduck.commons.model.entity.Review;
+import com.ducks.goodsduck.admin.model.entity.Review;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReviewRepositoryCustom {

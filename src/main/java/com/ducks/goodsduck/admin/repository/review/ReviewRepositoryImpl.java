@@ -1,6 +1,7 @@
-package com.ducks.goodsduck.commons.repository.review;
+package com.ducks.goodsduck.admin.repository.review;
 
-import com.ducks.goodsduck.commons.model.entity.*;
+import com.ducks.goodsduck.admin.model.entity.QReview;
+import com.ducks.goodsduck.admin.model.entity.Review;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -8,13 +9,13 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class ReviewRepositoryCustomImpl implements ReviewRepositoryCustom {
+public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     private QReview review = QReview.review;
 
-    public ReviewRepositoryCustomImpl(EntityManager em) {
+    public ReviewRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

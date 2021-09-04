@@ -1,4 +1,4 @@
-package com.ducks.goodsduck.commons.model.entity;
+package com.ducks.goodsduck.admin.model.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;

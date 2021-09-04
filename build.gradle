@@ -24,6 +24,11 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.json', name: 'json', version: '20210307'
+
+	// AWS Secret Manager
+	implementation 'org.springframework.cloud:spring-cloud-context:3.0.3'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 
 	// Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -39,8 +44,20 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
+	// p6spy
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
+
+	// Image Rotation
+	implementation group: 'com.drewnoakes', name: 'metadata-extractor', version: '2.11.0'
+	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+
 	// Devtools
 	implementation 'org.springframework.boot:spring-boot-devtools'
+
+	// QueryDSL
+	implementation 'com.querydsl:querydsl-jpa'
+	compile group: 'com.querydsl', name: 'querydsl-jpa', version: '4.3.1'
+	annotationProcessor group: 'com.querydsl', name: 'querydsl-apt', version: '4.3.1'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

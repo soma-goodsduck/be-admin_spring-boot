@@ -66,49 +66,50 @@
                         </div>
 
                         <!-- chart content1 -->
-                        <div class="card-body" th:each="idolGroupTOP5,i:${idolGroupTOP5}">
+                        <div class="card-body" th:each="idolGroup,i:${idolGroupTOP5}">
                             <h4 class="small font-weight-bold pt-4">
-                                <span th:text="${idolGroupTOP5.name}"></span>
+                                <span th:text="${idolGroup.name}"></span>
                                 <span class="float-right">
-                                    <span th:text="|${idolGroupTOP5.ratio}%|"></span>
+                                    <span th:text="|${idolGroup.ratio}%|"></span>
                                 </span>
                             </h4>
                             <div class="progress mb-4" th:if="${i.index eq 0}">
                                 <div class="progress-bar bg-danger" role="progressbar"
-                                     th:style="|width:${idolGroupTOP5.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroupTOP5.ratio}"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
                                      aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                             <div class="progress mb-4" th:if="${i.index eq 1}">
                                 <div class="progress-bar bg-warning" role="progressbar"
-                                     th:style="|width:${idolGroupTOP5.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroupTOP5.ratio}"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
                                      aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                             <div class="progress mb-4" th:if="${i.index eq 2}">
                                 <div class="progress-bar bg-primary" role="progressbar"
-                                     th:style="|width:${idolGroupTOP5.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroupTOP5.ratio}"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
                                      aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                             <div class="progress mb-4" th:if="${i.index eq 3}">
                                 <div class="progress-bar bg-info" role="progressbar"
-                                     th:style="|width:${idolGroupTOP5.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroupTOP5.ratio}"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
                                      aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                             <div class="progress mb-4" th:if="${i.index eq 4}">
                                 <div class="progress-bar bg-success" role="progressbar"
-                                     th:style="|width:${idolGroupTOP5.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroupTOP5.ratio}"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
                                      aria-valuemin="0" aria-valuemax="100">
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -138,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- member wrapper -->
@@ -179,26 +181,26 @@
     var myPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-        datasets: [{
-        data: [55, 30, 15],
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-        hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-    },
-    options: {
-        cutoutPercentage: 80,
-        maintainAspectRatio: false,
+            datasets: [{
+                data: [55, 30, 15],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            cutoutPercentage: 80,
+            maintainAspectRatio: false,
             tooltips: {
-            backgroundColor: "rgb(255,255,255)",
-            bodyFontColor: "#858796",
-            borderColor: '#dddfeb',
-            borderWidth: 1,
-            xPadding: 15,
-            yPadding: 15,
-            displayColors: false,
-            caretPadding: 10,
-            },
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+                },
         },
     });
 </script>

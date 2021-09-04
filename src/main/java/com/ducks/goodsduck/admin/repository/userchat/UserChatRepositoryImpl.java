@@ -1,4 +1,4 @@
-package com.ducks.goodsduck.admin.repository;
+package com.ducks.goodsduck.admin.repository.userchat;
 
 import com.ducks.goodsduck.admin.model.entity.*;
 import com.querydsl.core.Tuple;
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class UserChatRepositoryCustomImpl implements UserChatRepositoryCustom {
+public class UserChatRepositoryImpl implements UserChatRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -18,7 +18,7 @@ public class UserChatRepositoryCustomImpl implements UserChatRepositoryCustom {
     private QUser user = QUser.user;
     private QUserChat userChat = QUserChat.userChat;
 
-    public UserChatRepositoryCustomImpl(EntityManager em) {
+    public UserChatRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid d-flex justify-content-center">
+
+            <!-- idolGroup add form content -->
+            <div class="card shadow m-5 p-5" style="width: 30%">
+                <form th:action="'/idol-member/edit/'+${idolMember.id}+''" method="post" enctype="multipart/form-data">
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">Name</h5>
+                        <input type="text" class="form-control" name="name" th:value="${idolMember.name}">
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">groupName</h5>
+                        <input type="text" class="form-control" name="korName" th:value="${idolMember.groupName}" readonly>
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">Image</h5>
+                        <input type="file" class="form-control-file" name="multipartFile">
+                    </div>
+                    <button type="button" class="btn btn-danger float-end me-5" onclick="location.href='/idol-members'">
+                        <i class="fas fa-arrow-left fa-lg"></i>
+                    </button>
+                    <button class="btn btn-primary float-end me-3">
+                        <i class="fas fa-check"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+</script>
+
+</html>

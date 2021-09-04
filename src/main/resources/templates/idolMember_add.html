@@ -8,26 +8,32 @@
         <div class="container-fluid d-flex justify-content-center">
 
             <!-- idolGroup add form content -->
-            <div class="card shadow m-5 p-5" style="width: 30%">
-                <form action="/idol-group/add" method="post" enctype="multipart/form-data">
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">Name</h5>
-                        <input type="text" class="form-control" name="name">
+            <div class="card shadow m-5 p-5" style="width:65%">
+                <form th:action="'/idol-member/add/'+${idolGroup.id}+''" method="post" enctype="multipart/form-data">
+                    <button class="btn btn-info" type="button" onclick="addForm()">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                    <div id="form">
+                        <div id="form1">
+                            <div class="form-group me-3 m-5 d-inline-block" >
+                                <h5 class="mb-3">Name</h5>
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                            <div class="form-group me-2 m-5 d-inline-block">
+                                <h5 class="mb-3">Group Name</h5>
+                                <input type="text" class="form-control" name="groupName" th:value="${idolGroup.name}" readonly>
+                            </div>
+                            <div class="form-group me-0 m-5 d-inline-block">
+                                <h5 class="mb-3">Image</h5>
+                                <input type="file" class="form-control-file" name="multipartFile">
+                            </div>
+                            <button type="button" id="button1" onclick="deleteForm(this.id)">
+                                <i class="fas fa-user-times"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">KorName</h5>
-                        <input type="text" class="form-control" name="korName">
-                    </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">EngName</h5>
-                        <input type="text" class="form-control" name="engName">
-                    </div>
-                    <div class="form-group m-5">
-                        <h5 class="mb-3">Image</h5>
-                        <input type="file" class="form-control-file" name="multipartFile">
-                    </div>
-                    <button type="button" class="btn btn-danger float-end me-5" onclick="location.href='/idol-groups'">
-                        <i class="fas fa-times fa-lg"></i>
+                    <button type="button" class="btn btn-danger float-end" onclick="location.href='/idol-members'">
+                        <i class="fas fa-arrow-left fa-lg"></i>
                     </button>
                     <button class="btn btn-primary float-end me-3">
                         <i class="fas fa-check"></i>
@@ -41,7 +47,44 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+    /* <![CDATA[ */
+    var idolGroupName = /*[[${idolGroup.name}]]*/;
+    /* ]]> */
+    var count = 1;
 
+    function addForm() {
+        var newForm = document.createElement("div");
+        newForm.setAttribute("id", "form" + ++count);
+
+        var html = "";
+        html += "<div class='form-group me-3 m-5 d-inline-block'>";
+        html += "<h5 class='mb-3'>Name</h5>"
+        html += "<input type=\"text\" class=\"form-control\" name=\"name\">";
+        html += "</div>";
+        html += "<div class=\"form-group me-3 m-5 d-inline-block\">";
+        html += "<h5 class=\"mb-3\">Group Name</h5>";
+        html += `<input type=\"text\" class=\"form-control\" name=\"groupName\" value="${idolGroupName}" readonly>`;
+        html += "</div>";
+        html += "<div class=\"form-group me-0 m-5 d-inline-block\">";
+        html += "<h5 class=\"mb-3\">Image</h5>";
+        html += "<input type=\"file\" class=\"form-control-file\" name=\"multipartFile\">";
+        html += "</div>";
+        html += `<button type=\"button\" id=\"button${count}\" onclick=\"deleteForm(this.id)\">`;
+        html += "<i class=\"fas fa-user-times\"></i>";
+        html += "</button>";
+
+        newForm.innerHTML = html;
+
+        var parentForm = document.getElementById("form");
+        parentForm.appendChild(newForm);
+    }
+
+    function deleteForm(id) {
+        var button = document.getElementById(id);
+        var childForm = button.parentElement;
+        var parentForm = document.getElementById("form");
+        parentForm.removeChild(childForm);
+    }
 </script>
 
 </html>

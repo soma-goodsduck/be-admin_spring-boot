@@ -1,6 +1,6 @@
-package com.ducks.goodsduck.commons.repository.image;
+package com.ducks.goodsduck.admin.repository.image;
 
-import com.ducks.goodsduck.commons.model.entity.Image.ItemImage;
+import com.ducks.goodsduck.admin.model.entity.Image.ItemImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

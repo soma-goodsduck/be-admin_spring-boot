@@ -1,4 +1,4 @@
-package com.ducks.goodsduck.admin.repository;
+package com.ducks.goodsduck.admin.repository.userchat;
 
 import com.ducks.goodsduck.admin.model.entity.Chat;
 import com.ducks.goodsduck.admin.model.entity.User;

@@ -3,11 +3,24 @@
 
 <script layout:fragment="script" th:inline="javascript">
     /* <![CDATA[ */
+    var type = /*[[${type}]]*/;
     var message = /*[[${message}]]*/;
     /* ]]> */
 
-    alert(message);
-    window.location.href = "/idol-groups";
+    if(type == "idolGroupAdd") {
+        alert(message);
+        window.location.href = "/idol-groups";
+    } else if(type == "idolMemberAdd") {
+        alert(message);
+        window.location.href = "/idol-members";
+    } else if(type == "idolGroupEdit") {
+        alert(message);
+        window.location.href = "/idol-groups";
+    } else if(type == "idolMemberEdit") {
+        alert(message);
+        window.location.href = "/idol-members";
+    }
+
 </script>
 
 </html>

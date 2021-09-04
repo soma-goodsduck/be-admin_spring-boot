@@ -1,6 +1,6 @@
-package com.ducks.goodsduck.commons.repository;
+package com.ducks.goodsduck.admin.repository;
 
-import com.ducks.goodsduck.commons.model.entity.Chat;
+import com.ducks.goodsduck.admin.model.entity.Chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

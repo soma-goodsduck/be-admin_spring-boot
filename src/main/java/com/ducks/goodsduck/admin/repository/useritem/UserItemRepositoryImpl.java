@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
+public class UserItemRepositoryImpl implements UserItemRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -23,7 +23,7 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
     private QIdolMember idolMember = QIdolMember.idolMember;
     private QIdolGroup idolGroup = QIdolGroup.idolGroup;
 
-    public UserItemRepositoryCustomImpl(EntityManager em) {
+    public UserItemRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 

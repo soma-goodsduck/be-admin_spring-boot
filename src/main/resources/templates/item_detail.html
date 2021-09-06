@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid d-flex justify-content-center">
+
+            <!-- item detail content wrapper -->
+            <div class="card shadow m-5 p-5" >
+
+                <!-- item image detail content -->
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" th:each="imageURL,i:${item.imageURLs}" th:id="image+${i.index}">
+                            <img th:src="${imageURL}" class="d-block" width="400rem" height="400rem">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" width="400rem" height="400rem" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+                <!-- item other detail content -->
+                <div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">제목</h5>
+                        <input type="text" class="form-control" name="name" th:value="${item.name}" readonly>
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">가격</h5>
+                        <input type="text" class="form-control" name="price" th:value="${item.price}" readonly>
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">거래상태</h5>
+                        <input type="text" class="form-control" name="tradeStatus" th:value="${item.tradeStatus}" readonly>
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">그룹</h5>
+                        <input type="text" class="form-control" name="idolGroup" th:value="${item.idolGroup}" readonly>
+                    </div>
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">설명</h5>
+                        <textarea class="form-control" name="description" th:text="${item.description}" readonly></textarea>
+                    </div>
+                    <button type="button" class="btn btn-danger float-end me-5" onclick="location.href='/items'">
+                        <i class="fas fa-arrow-left fa-lg"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    document.getElementById("image0").classList.add("active");
+</script>
+
+</html>

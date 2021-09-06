@@ -13,4 +13,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("CommentReport")
 public class CommentReportCategory extends Category {
+
+    public CommentReportCategory(String name) {
+        super(name);
+    }
 }

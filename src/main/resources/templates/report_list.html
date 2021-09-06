@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- search content -->
+            <div class="card shadow m-5 p-4" style="width:400px">
+                <form action="/item" method="get">
+                    <input type="text" name="search" id="search" class="p-2 me-2" value="아이템 번호로 검색" onclick="erase()" style="width:85%;">
+                    <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+            <!-- report table content -->
+            <div class="card shadow m-5 p-5">
+                <table class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">신고자</th>
+                        <th scope="col">신고대상</th>
+                        <th scope="col">종류</th>
+                        <th scope="col">내용</th>
+                        <th scope="col">처리</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="report,i:${reports}" class="align-middle">
+                        <th scope="row" th:text="${report.id}">ID</th>
+                        <td th:text="${report.sender.nickName}">SenderNickName</td>
+                        <td th:text="${report.receiver.nickName}">ReceiverNickName</td>
+                        <td th:text="${report.category.name}">CategoryName</td>
+                        <td th:text="${report.content}">Content</td>
+                        <td>
+                            <button class="btn btn-danger" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${report.id}+'\''">
+                                <i class="fas fa-bullhorn"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    function erase() {
+        document.getElementById("search").value=null;
+    }
+</script>
+
+</html>

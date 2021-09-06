@@ -13,4 +13,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("Item")
 public class ItemCategory extends Category {
+
+    public ItemCategory(String name) {
+        super(name);
+    }
 }

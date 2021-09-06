@@ -50,3 +50,11 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 #groupselect:hover {
   background-color: #86b7fe;
 }
+
+.itemTr {
+  cursor: pointer;
+}
+
+.itemTr:hover {
+  background: #86b7fe;
+}

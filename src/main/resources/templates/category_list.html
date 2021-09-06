@@ -13,46 +13,36 @@
                 <!-- search content -->
                 <div style="width:400px;">
                     <form action="/item-categories" method="get">
-<!--                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">-->
+                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
                         <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
                     </form>
                 </div>
 
-                <!-- idolGroup add button content -->
+                <!-- category add button content -->
                 <div>
-                    <button type="submit" class="p-2 btn-primary" onclick="location.href='/idol-group/select'">
+                    <button type="submit" class="p-2 btn-primary" th:onclick="'location.href=\'/category/'+@{${type}}+'/add\''">
                         <i class="fas fa-plus fa-lg"></i>
                     </button>
                 </div>
 
             </div>
 
-            <!-- idolGroup table content -->
+            <!-- category table content -->
             <div class="card shadow m-5 p-5">
                 <table class="table table-striped text-center">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Group Name</th>
-                        <th scope="col">Group Image</th>
                         <th scope="col">Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="idolMember,i:${idolMembers}" class="align-middle">
-                        <th scope="row" th:text="${idolMember.id}">ID</th>
-                        <td th:text="${idolMember.name}">Name</td>
+                    <tr th:each="category,i:${categories}" class="align-middle">
+                        <th scope="row" th:text="${category.id}">ID</th>
+                        <td th:text="${category.name}">Name</td>
                         <td>
-                            <img th:src="${idolMember.imageURL}" width="100rem" height="100rem">
-                        </td>
-                        <td th:text="${idolMember.groupName}">Group Name</td>
-                        <td>
-                            <img th:src="${idolMember.groupImageURL}" width="100rem" height="100rem">
-                        </td>
-                        <td>
-                            <button class="btn btn-warning" id="editBtn" th:onclick="'location.href=\'/idol-member/edit/'+${idolMember.id}+'\''">
+                            <button class="btn btn-warning" id="editBtn" th:onclick="'location.href=\'/category/'+@{${type}}+'/edit/'+${category.id}+'\''">
                                 <i class="fas fa-edit ps-1 pb-1"></i>
                             </button>
                         </td>

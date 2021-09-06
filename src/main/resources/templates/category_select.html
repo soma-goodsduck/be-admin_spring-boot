@@ -9,9 +9,9 @@
 
             <!-- idolGroup select form content -->
             <div class="card2 shadow m-5 p-5 d-flex flex-wrap justify-content-center">
-                <button th:each="idolGroup,i:${idolGroups}" class="btn border-info border-2 m-3"
-                        th:onclick="'location.href=\'/idol-member/add/'+${idolGroup.id}+'\''">
-                    <p th:text="${idolGroup.name}" class="m-3"></p>
+                <button th:each="category,i:${categories}" class="btn border-info border-2 m-3"
+                        th:onclick="'location.href=\'/category/'+@{${category.type}}+'\''">
+                    <p th:text="${category.name}" class="m-3"></p>
                 </button>
             </div>
 

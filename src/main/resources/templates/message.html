@@ -5,6 +5,7 @@
     /* <![CDATA[ */
     var type = /*[[${type}]]*/;
     var message = /*[[${message}]]*/;
+    var categoryType = /*[[${categoryType}]]*/
     /* ]]> */
 
     if(type == "idolGroupAdd") {
@@ -19,6 +20,12 @@
     } else if(type == "idolMemberEdit") {
         alert(message);
         window.location.href = "/idol-members";
+    } else if(type == "categoryAdd") {
+        alert(message);
+        window.location.href = `/category/${categoryType}`;
+    } else if(type == "categoryEdit") {
+        alert(message);
+        window.location.href = `/category/${categoryType}`;
     }
 
 </script>

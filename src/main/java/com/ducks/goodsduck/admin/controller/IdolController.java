@@ -65,7 +65,7 @@ public class IdolController {
     // FEAT : 아이돌 그룹 수정
     @PostMapping("/idol-group/edit/{idolGroupId}")
     public String editIdolGroup(@PathVariable("idolGroupId") Long idolGroupId,
-                                       @ModelAttribute IdolGroupAdd idolGroupEdit, Model model) throws ImageProcessingException, IOException, MetadataException {
+                                @ModelAttribute IdolGroupEdit idolGroupEdit, Model model) throws ImageProcessingException, IOException, MetadataException {
 
         Image image = imageUploadService.uploadImage(idolGroupEdit.getMultipartFile());
 

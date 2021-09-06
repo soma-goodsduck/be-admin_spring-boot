@@ -1,6 +1,7 @@
 package com.ducks.goodsduck.admin.controller;
 
 import com.ducks.goodsduck.admin.model.dto.CheckDto;
+import com.ducks.goodsduck.admin.model.dto.ItemDetail;
 import com.ducks.goodsduck.admin.model.dto.ItemDto;
 import com.ducks.goodsduck.admin.model.entity.Item;
 import com.ducks.goodsduck.admin.repository.ItemRepository;
@@ -34,7 +35,7 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemRepository itemRepository;
 
-    // FEAT : 상품 검색
+    // FEAT : 굿즈 검색
     @GetMapping("/item")
     public String searchByItemId(@RequestParam("search") Long itemId, Model model) {
         Optional<Item> item = itemRepository.findById(itemId);
@@ -47,7 +48,7 @@ public class ItemController {
         }
     }
 
-    // FEAT : 상품 삭제
+    // FEAT : 굿즈 삭제
     @GetMapping("/item/delete/{itemId}")
     @ResponseBody
     public CheckDto deleteByItemId(@PathVariable("itemId") Long itemId) {
@@ -57,5 +58,17 @@ public class ItemController {
                 .map(item -> new ItemDto(item))
                 .collect(Collectors.toList());
         return new CheckDto(success);
+    }
+
+    // FEAT : 굿즈 상세보기
+    @GetMapping("/item/{itemId}")
+    public String showItemDetail(@PathVariable("itemId") Long itemId, Model model) {
+
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(itemId);
+
+        ItemDetail itemDetail = itemRepository.findById(itemId).map(item -> new ItemDetail(item)).get();
+        model.addAttribute("item", itemDetail);
+        return "item_detail";
     }
 }

@@ -15,8 +15,6 @@
                 </form>
             </div>
 
-
-
             <!-- item table content -->
             <div class="card shadow m-5 p-5">
                 <table class="table table-striped text-center">
@@ -32,13 +30,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="item,i:${items}" class="align-middle" th:id="${item.id}">
-                        <th scope="row" th:text="${item.id}">ID</th>
-                        <td th:text="${item.name}">Name</td>
-                        <td th:text="${item.price}">Price</td>
-                        <td th:text="${item.tradeStatus}">Trade Status</td>
-                        <td th:text="${item.idolGroup}">Idol Group</td>
-                        <td>
+                    <tr th:each="item,i:${items}" class="align-middle itemTr" th:id="${item.id}">
+                        <th scope="row" th:text="${item.id}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">ID</th>
+                        <td th:text="${item.name}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Name</td>
+                        <td th:text="${item.price}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Price</td>
+                        <td th:text="${item.tradeStatus}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Trade Status</td>
+                        <td th:text="${item.idolGroup}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Idol Group</td>
+                        <td th:onclick="'location.href=\'/item/'+${item.id}+'\''" class="itemTd" style="cursor:pointer">
                             <img th:src="${item.imageURL}" width="100rem" height="100rem">
                         </td>
                         <td>
@@ -71,6 +69,7 @@
             .done(function(data) {
                 if(data.success == 1) {
                     $("#" + itemId).hide();
+                    document.location.reload(true);
                 }
             })
             .fail(function(data, error) {

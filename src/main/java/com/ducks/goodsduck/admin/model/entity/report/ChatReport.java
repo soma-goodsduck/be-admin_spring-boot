@@ -1,18 +1,18 @@
 package com.ducks.goodsduck.admin.model.entity.report;
 
-import com.ducks.goodsduck.admin.model.entity.Comment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorValue("CommentReport")
-public class CommentReport extends Report {
+@DiscriminatorValue("ChatReport")
+public class ChatReport extends Report {
 
-    private Long commentId;
+    private String chatId;
 }

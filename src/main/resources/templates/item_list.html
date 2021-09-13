@@ -61,20 +61,20 @@
     }
 
     function deleteItem(itemId) {
-        if(confirm("삭제하시겠습니까?")) {
+        if(confirm("아이템을 삭제하시겠습니까?")) {
             $.ajax({
                 type: "get",
                 url: "/item/delete/" + itemId,
             })
-            .done(function(data) {
-                if(data.success == 1) {
-                    $("#" + itemId).hide();
-                    document.location.reload(true);
-                }
-            })
-            .fail(function(data, error) {
-                console.log(error);
-            })
+                .done(function(data) {
+                    if(data.success == 1) {
+                        $("#" + itemId).hide();
+                        document.location.reload(true);
+                    }
+                })
+                .fail(function(data, error) {
+                    console.log(error);
+                })
         } else {
             return false;
         }

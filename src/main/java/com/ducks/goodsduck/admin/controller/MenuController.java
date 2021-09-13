@@ -1,18 +1,12 @@
 package com.ducks.goodsduck.admin.controller;
 
-import com.ducks.goodsduck.admin.model.dto.CategoryDto;
-import com.ducks.goodsduck.admin.model.dto.ItemDto;
-import com.ducks.goodsduck.admin.model.dto.ReportDto;
-import com.ducks.goodsduck.admin.model.dto.UserDto;
+import com.ducks.goodsduck.admin.model.dto.*;
 import com.ducks.goodsduck.admin.model.dto.idol.IdolGroupDto;
 import com.ducks.goodsduck.admin.model.dto.idol.IdolMemberDto;
 import com.ducks.goodsduck.admin.model.entity.User;
-import com.ducks.goodsduck.admin.repository.ReportRepository;
+import com.ducks.goodsduck.admin.repository.*;
 import com.ducks.goodsduck.admin.repository.category.ItemCategoryRepository;
 import com.ducks.goodsduck.admin.repository.idol.IdolGroupRepository;
-import com.ducks.goodsduck.admin.repository.ItemRepository;
-import com.ducks.goodsduck.admin.repository.PostRepository;
-import com.ducks.goodsduck.admin.repository.UserRepository;
 import com.ducks.goodsduck.admin.repository.idol.IdolMemberRepository;
 import com.ducks.goodsduck.admin.service.ImageUploadService;
 import com.ducks.goodsduck.admin.service.MenuService;
@@ -23,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,15 +30,13 @@ import java.util.stream.Collectors;
 public class MenuController {
 
     private final MenuService menuService;
-    private final ImageUploadService imageUploadService;
 
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
-    private final PostRepository postRepository;
     private final IdolGroupRepository idolGroupRepository;
     private final IdolMemberRepository idolMemberRepository;
-    private final ItemCategoryRepository itemCategoryRepository;
     private final ReportRepository reportRepository;
+    private final NoticeRepository noticeRepository;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -54,6 +48,7 @@ public class MenuController {
     public String getItems(Model model) {
         List<ItemDto> items = itemRepository.findAll()
                 .stream()
+                .filter(item -> item.getDeletedAt() == null)
                 .map(item -> new ItemDto(item))
                 .collect(Collectors.toList());
         model.addAttribute("items", items);
@@ -85,7 +80,9 @@ public class MenuController {
         List<CategoryDto> categories = new ArrayList<>();
         categories.add(new CategoryDto("item", "굿즈"));
         categories.add(new CategoryDto("post", "포스트"));
-        categories.add(new CategoryDto("item-report", "굿즈 / 채팅 신고"));
+        categories.add(new CategoryDto("user-report", "유저 신고"));
+        categories.add(new CategoryDto("item-report", "굿즈 신고"));
+        categories.add(new CategoryDto("chat-report", "채팅 신고"));
         categories.add(new CategoryDto("post-report", "포스트 신고"));
         categories.add(new CategoryDto("comment-report", "댓글 신고"));
 
@@ -104,15 +101,35 @@ public class MenuController {
                     reportDto.setReceiver(new UserDto(report.getReceiver()));
                     User sender = userRepository.findById(report.getSenderId()).get();
                     reportDto.setSender(new UserDto(sender));
+                    reportDto.setCategoryName(report.getReportCategory().getName());
                     return reportDto;
                 })
                 .collect(Collectors.toList());
 
         model.addAttribute("reports", reports);
 
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(reports.get(0).getCategory().getName());
-
         return "report_list";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+
+        model.addAttribute("type", "logout");
+        model.addAttribute("message", "로그아웃이 완료되었습니다.");
+        return "message";
+    }
+
+    @GetMapping("/notices")
+    public String getNotices(Model model) {
+        List<NoticeDto> notices = noticeRepository.findAll()
+                .stream()
+                .map(notice -> new NoticeDto(notice))
+                .collect(Collectors.toList());
+        model.addAttribute("notices", notices);
+        return "notice_list";
     }
 }

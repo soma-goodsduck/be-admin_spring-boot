@@ -33,7 +33,7 @@
                         <th scope="row" th:text="${report.id}">ID</th>
                         <td th:text="${report.sender.nickName}">SenderNickName</td>
                         <td th:text="${report.receiver.nickName}">ReceiverNickName</td>
-                        <td th:text="${report.category.name}">CategoryName</td>
+                        <td th:text="${report.categoryName}">CategoryName</td>
                         <td th:text="${report.content}">Content</td>
                         <td>
                             <button class="btn btn-danger" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${report.id}+'\''">

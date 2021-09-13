@@ -6,6 +6,7 @@
     var type = /*[[${type}]]*/;
     var message = /*[[${message}]]*/;
     var categoryType = /*[[${categoryType}]]*/
+    var redirectURL = /*[[${redirectURL}]]*/
     /* ]]> */
 
     if(type == "idolGroupAdd") {
@@ -26,8 +27,26 @@
     } else if(type == "categoryEdit") {
         alert(message);
         window.location.href = `/category/${categoryType}`;
+    } else if(type == "categoryDelete") {
+        alert(message);
+        window.location.href = `/category/${categoryType}`;
+    } else if(type == "adminRegister") {
+        alert(message);
+        window.location.href = "/login";
+    } else if(type == "loginFail" || type == "registerFail") {
+        alert(message);
+        window.location.href = "/login";
+    } else if(type == "loginSuccess" ) {
+        alert(message);
+        window.location.replace(redirectURL);
+    } else if(type == "logout") {
+        alert(message)
+        window.location.replace("/");
+    } else if(type == "noticeEdit" || type == "noticeUpload" || type == "noticeDelete") {
+        alert(message);
+        window.location.href = "/notices";
     }
-
+    // Upload 는 디테일보여줄꺼임
 </script>
 
 </html>

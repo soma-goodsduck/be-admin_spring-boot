@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationContextServe implements ApplicationContextAware{
 
     private static ApplicationContext applicationContext;
-    @Override
 
+    @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         applicationContext = context;
     }

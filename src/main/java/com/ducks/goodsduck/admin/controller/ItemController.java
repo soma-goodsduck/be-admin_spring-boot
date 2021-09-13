@@ -52,21 +52,13 @@ public class ItemController {
     @GetMapping("/item/delete/{itemId}")
     @ResponseBody
     public CheckDto deleteByItemId(@PathVariable("itemId") Long itemId) {
-        Long success = itemService.delete(itemId);
-        List<ItemDto> items = itemRepository.findAll()
-                .stream()
-                .map(item -> new ItemDto(item))
-                .collect(Collectors.toList());
+        Long success = itemService.deleteV2(itemId);
         return new CheckDto(success);
     }
 
     // FEAT : 굿즈 상세보기
     @GetMapping("/item/{itemId}")
     public String showItemDetail(@PathVariable("itemId") Long itemId, Model model) {
-
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(itemId);
-
         ItemDetail itemDetail = itemRepository.findById(itemId).map(item -> new ItemDetail(item)).get();
         model.addAttribute("item", itemDetail);
         return "item_detail";

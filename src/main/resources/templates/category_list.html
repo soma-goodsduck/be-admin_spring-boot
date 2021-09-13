@@ -8,15 +8,7 @@
         <div class="container-fluid">
 
             <!-- search & add content wrapper -->
-            <div class="card2 shadow m-5 p-4 d-flex" style="width: 470px">
-
-                <!-- search content -->
-                <div style="width:400px;">
-                    <form action="/item-categories" method="get">
-                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
-                        <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
+            <div class="card2 shadow m-5 p-4 d-flex" style="width:90px">
 
                 <!-- category add button content -->
                 <div>
@@ -38,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="category,i:${categories}" class="align-middle">
+                    <tr th:each="category,i:${categories}" class="align-middle" th:id="${category.id}">
                         <th scope="row" th:text="${category.id}">ID</th>
                         <td th:text="${category.name}">Name</td>
                         <td>
@@ -57,8 +49,25 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    function erase() {
-        document.getElementById("search").value=null;
+    function deleteCategory(categoryType, categoryId) {
+        if(confirm("삭제하시겠습니까?")) {
+            $.ajax({
+                type: "get",
+                url: "/category/delete/" + categoryId,
+            })
+            .done(function(data) {
+                if(data.success == 1) {
+                    alert("삭제가 완료되었습니다.");
+                    $("#" + categoryId).hide();
+                    document.location.reload(true);
+                }
+            })
+            .fail(function(data, error) {
+                console.log(error);
+            })
+        } else {
+            return false;
+        }
     }
 </script>
 

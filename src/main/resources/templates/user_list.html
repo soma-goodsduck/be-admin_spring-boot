@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- search & add content wrapper -->
+            <div class="card2 shadow m-5 p-4 d-flex" style="width: 470px">
+
+                <!-- search content -->
+                <div style="width:400px;">
+                    <form action="/idol-groups" method="get">
+                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
+                        <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+
+                <!-- idolGroup add button content -->
+                <div>
+                    <button type="submit" class="p-2 btn-primary" onclick="location.href='/idol-group/add'">
+                        <i class="fas fa-plus fa-lg"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- idolGroup table content -->
+            <div class="card shadow m-5 p-5">
+                <table class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">KorName</th>
+                        <th scope="col">EngName</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="idolGroup,i:${idolGroups}" class="align-middle">
+                        <th scope="row" th:text="${idolGroup.id}">ID</th>
+                        <td th:text="${idolGroup.name}">Name</td>
+                        <td th:text="${idolGroup.korName}">KorName</td>
+                        <td th:text="${idolGroup.engName}">EngName</td>
+                        <td>
+                            <img th:src="${idolGroup.imageURL}" width="100rem" height="100rem">
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${idolGroup.id}+'\''">
+                                <i class="fas fa-edit ps-1 pb-1"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    function erase() {
+        document.getElementById("search").value=null;
+    }
+</script>
+
+</html>

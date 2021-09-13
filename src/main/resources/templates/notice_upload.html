@@ -9,13 +9,16 @@
 
             <!-- idolGroup add form content -->
             <div class="card shadow m-5 p-5" style="width:500px">
-                <form th:action="'/category/'+@{${type}}+'/edit/'+${category.id}+''" method="post" enctype="multipart/form-data">
-                    <h4 th:text="${title}" class="text-center pb-4"></h4>
+                <form th:action="'/notice/upload'" method="post" enctype="multipart/form-data">
                     <div class="form-group m-5">
-                        <h5 class="mb-3">Name</h5>
-                        <input type="text" class="form-control" name="name" th:value="${category.name}">
+                        <h5 class="mb-3">Title</h5>
+                        <input type="text" class="form-control" name="title">
                     </div>
-                    <button type="button" class="btn btn-danger float-end me-5 mt-5" th:onclick="'location.href=\'/category/'+@{${type}}+'\''">
+                    <div class="form-group m-5">
+                        <h5 class="mb-3">Content</h5>
+                        <textarea class="form-control" name="content"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-danger float-end me-5 mt-5" th:onclick="'location.href=\'/notices\''">
                         <i class="fas fa-arrow-left fa-lg"></i>
                     </button>
                     <button class="btn btn-primary float-end me-3 mt-5">
@@ -30,7 +33,7 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-
+    autosize($("textarea"));
 </script>
 
 </html>

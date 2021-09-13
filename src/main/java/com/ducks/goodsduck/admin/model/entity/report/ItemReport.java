@@ -14,7 +14,5 @@ import javax.persistence.*;
 @DiscriminatorValue("ItemReport")
 public class ItemReport extends Report {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+    private Long itemId;
 }

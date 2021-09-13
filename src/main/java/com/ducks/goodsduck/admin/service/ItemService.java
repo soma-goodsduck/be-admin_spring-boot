@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,8 @@ public class ItemService {
             }
             chatRepository.deleteAllInBatch(deleteChats);
 
-            // review 연관 삭제
+            // TODO
+            // review 연관 삭제 (삭제용 데이터 0번 아이템으로 교체)
             List<Review> deleteItemOfReviews = reviewRepository.findByItemId(itemId);
             for (Review deleteItemOfReview : deleteItemOfReviews) {
                 deleteItemOfReview.deleteItem();
@@ -73,6 +75,17 @@ public class ItemService {
             // item 삭제
             itemRepository.delete(deleteItem);
 
+            return 1L;
+        } catch (Exception e) {
+            return -1L;
+        }
+    }
+
+    public Long deleteV2(Long itemId) {
+
+        try {
+            Item item = itemRepository.findById(itemId).get();
+            item.setDeletedAt(LocalDateTime.now());
             return 1L;
         } catch (Exception e) {
             return -1L;

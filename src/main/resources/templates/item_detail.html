@@ -30,7 +30,7 @@
                 <!-- item other detail content -->
                 <div>
                     <div class="form-group m-5">
-                        <h5 class="mb-3">제목</h5>
+                        <h5 class="mb-3">이름</h5>
                         <input type="text" class="form-control" name="name" th:value="${item.name}" readonly>
                     </div>
                     <div class="form-group m-5">
@@ -62,6 +62,7 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+    autosize($("textarea"));
     document.getElementById("image0").classList.add("active");
 </script>
 

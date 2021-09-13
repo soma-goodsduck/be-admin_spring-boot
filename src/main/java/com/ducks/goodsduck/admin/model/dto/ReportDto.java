@@ -13,13 +13,12 @@ public class ReportDto {
     private UserDto sender;
     private String content;
     private UserDto receiver;
-    private Category category;
+    private String categoryName;
     private LocalDateTime createdAt;
 
     public ReportDto(Report report) {
         this.id = report.getId();
         this.content = report.getContent();
-        this.category = report.getReportCategory();
         this.createdAt = report.getCreatedAt();
     }
 }

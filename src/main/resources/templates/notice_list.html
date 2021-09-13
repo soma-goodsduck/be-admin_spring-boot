@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+
+<div layout:fragment="content">
+
+    <!-- content wrapper -->
+    <div id="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- search & add content wrapper -->
+            <div class="card2 shadow m-5 p-4 d-flex" style="width:90px">
+
+                <!-- notice upload button content -->
+                <div>
+                    <button type="submit" class="p-2 btn-primary" th:onclick="'location.href=\'/notice/upload\''">
+                        <i class="fas fa-plus fa-lg"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- notice table content -->
+            <div class="card shadow m-5 p-5">
+                <table class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Upload Date</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="notice,i:${notices}" class="align-middle itemTr" th:id="${notice.id}">
+                        <th scope="row" th:text="${notice.id}" th:onclick="'location.href=\'/notice/'+${notice.id}+'\''">ID</th>
+                        <td th:text="${notice.title}" th:onclick="'location.href=\'/notice/'+${notice.id}+'\''">Title</td>
+                        <td th:text="${notice.uploadDate}" th:onclick="'location.href=\'/notice/'+${notice.id}+'\''">Upload Date</td>
+                        <td>
+                            <button class="btn btn-warning" id="editBtn" th:onclick="'location.href=\'/notice/edit/'+${notice.id}+'\''">
+                                <i class="fas fa-edit ps-1 pb-1"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" id="deleteBtn" th:onclick="'deleteNotice('+${notice.id}+')'">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    function deleteNotice(noticeId) {
+        if(confirm("공지사항을 삭제하시겠습니까?")) {
+            $.ajax({
+                type: "get",
+                url: "/notice/delete/" + noticeId
+            })
+                .done(function(data) {
+                    if(data.success == 1) {
+                        $("#" + noticeId).hide();
+                        document.location.reload(true);
+                    }
+                })
+                .fail(function(data, error) {
+                    console.log(error);
+                })
+        } else {
+            return false;
+        }
+    }
+</script>
+
+</html>

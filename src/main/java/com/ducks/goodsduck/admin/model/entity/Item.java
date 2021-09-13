@@ -33,6 +33,7 @@ public class Item {
     private Integer likesItemCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     @Enumerated(EnumType.STRING)
     private TradeType tradeType;
@@ -54,47 +55,7 @@ public class Item {
     @JoinColumn(name = "idol_member_id")
     private IdolMember idolMember;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_category_id")
     private ItemCategory itemCategory;
-
-//    public Item(ItemUploadRequest itemUploadRequest) {
-//        this.name = itemUploadRequest.getName();
-//        this.price = itemUploadRequest.getPrice();
-//        this.tradeType = itemUploadRequest.getTradeType();
-//        this.gradeStatus = itemUploadRequest.getGradeStatus();
-//        this.description = itemUploadRequest.getDescription();
-//        this.views = 0;
-//        this.likesItemCount = 0;
-//        this.createdAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.of("Asia/Seoul"));
-//        this.updatedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()), ZoneId.of("Asia/Seoul"));
-//        if(tradeType.equals(TradeType.BUY)) {
-//            this.tradeStatus = TradeStatus.BUYING;
-//        } else {
-//            this.tradeStatus = TradeStatus.SELLING;
-//        }
-//    }
-
-    public Image getThumbNail() {
-        return this.images.get(0);
-    }
-
-    public void addImage(ItemImage image) {
-        image.setItem(this);
-        this.images.add(image);
-    }
-
-    public Item liked() {
-        this.likesItemCount++;
-        return this;
-    }
-
-    public Item unLiked() {
-        this.likesItemCount--;
-        return this;
-    }
-
-    public void increaseView() {
-        this.views++;
-    }
 }

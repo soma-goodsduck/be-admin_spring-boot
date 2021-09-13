@@ -8,7 +8,7 @@
         <div class="container-fluid d-flex justify-content-center">
 
             <!-- idolGroup add form content -->
-            <div class="card shadow m-5 p-5" style="width:65%">
+            <div class="card shadow m-5 p-5" style="width:1200px">
                 <form th:action="'/idol-member/add/'+${idolGroup.id}+''" method="post" enctype="multipart/form-data">
                     <button class="btn btn-info" type="button" onclick="addForm()">
                         <i class="fas fa-user-plus"></i>
@@ -32,10 +32,10 @@
                             </button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger float-end" onclick="location.href='/idol-members'">
+                    <button type="button" class="btn btn-danger float-end mt-5" onclick="location.href='/idol-members'">
                         <i class="fas fa-arrow-left fa-lg"></i>
                     </button>
-                    <button class="btn btn-primary float-end me-3">
+                    <button class="btn btn-primary float-end me-3 mt-5">
                         <i class="fas fa-check"></i>
                     </button>
                 </form>

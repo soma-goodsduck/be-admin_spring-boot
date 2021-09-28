@@ -39,6 +39,8 @@ public class AwsSecretManagerUtil {
                 .withSecretId(secretName);
         GetSecretValueResult getSecretValueResult = null;
 
+        JSONObject jsonObject = new JSONObject();
+
         try {
             getSecretValueResult = client.getSecretValue(getSecretValueRequest);
         } catch (DecryptionFailureException e) {
@@ -74,6 +76,7 @@ public class AwsSecretManagerUtil {
             awsSecret = decodedBinarySecret;
         }
 
-        return new JSONObject(awsSecret);
+        jsonObject = new JSONObject(awsSecret);
+        return jsonObject;
     }
 }

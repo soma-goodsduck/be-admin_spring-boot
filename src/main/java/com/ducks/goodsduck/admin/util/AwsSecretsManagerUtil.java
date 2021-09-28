@@ -17,7 +17,7 @@ public class AwsSecretsManagerUtil {
 
     private static String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
     private static String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
-    
+
     public static JSONObject getSecret() {
 
         String secretName = "goodsduck/admin";

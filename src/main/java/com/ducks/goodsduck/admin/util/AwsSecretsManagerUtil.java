@@ -14,7 +14,6 @@ import java.util.Base64;
 
 public class AwsSecretsManagerUtil {
 
-    @PostConstruct
     public static JSONObject getSecret() {
 
         String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");

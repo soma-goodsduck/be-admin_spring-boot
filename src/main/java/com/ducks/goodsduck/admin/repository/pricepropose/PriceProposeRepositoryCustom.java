@@ -21,4 +21,6 @@ public interface PriceProposeRepositoryCustom {
     Long countSuggestedInItems(List<Item> itemsByUserId);
 
     List<PricePropose> findAllByItemIdWithAllStatus(Long itemId);
+
+    PricePropose findByUserIdAndItemIdForChat(Long userId, Long itemId);
 }

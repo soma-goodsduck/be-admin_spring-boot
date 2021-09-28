@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -24,8 +25,5 @@ public class UserItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    public UserItem(User user, Item item) {
-        this.user = user;
-        this.item = item;
-    }
+    private LocalDateTime deletedAt;
 }

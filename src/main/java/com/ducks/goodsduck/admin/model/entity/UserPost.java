@@ -1,12 +1,12 @@
 package com.ducks.goodsduck.admin.model.entity;
 
-import com.ducks.goodsduck.admin.model.entity.Image.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -24,6 +24,8 @@ public class UserPost {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    private LocalDateTime deletedAt;
 
     public UserPost(User user, Post post) {
         this.user = user;

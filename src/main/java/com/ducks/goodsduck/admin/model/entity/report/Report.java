@@ -16,7 +16,7 @@ import java.time.ZoneId;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "report_type")
+@DiscriminatorColumn(name = "report_type", discriminatorType = DiscriminatorType.STRING)
 public class Report {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +34,9 @@ public class Report {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category reportCategory;
+
+    @Transient
+    public String getDecriminatorValue() {
+        return this.getClass().getAnnotation(DiscriminatorValue.class).value();
+    }
 }

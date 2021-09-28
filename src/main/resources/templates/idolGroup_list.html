@@ -10,17 +10,13 @@
             <!-- search & add content wrapper -->
             <div class="card2 shadow m-5 p-4 d-flex" style="width: 470px">
 
-                <!-- search content -->
-                <div style="width:400px;">
-                    <form action="/idol-groups" method="get">
-                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
-                        <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                <!-- search & add content -->
+                <div style="width:100%;">
+                    <form action="/idol-group" method="get" class="d-inline">
+                        <input type="text" name="search" id="search" class="form-control d-inline p-2 me-2" value="그룹 이름으로 검색" onclick="erase()" style="width:73%;">
+                        <button type="submit" class="mb-1 me-2 btn btn-success"><i class="fas fa-search"></i></button>
                     </form>
-                </div>
-
-                <!-- idolGroup add button content -->
-                <div>
-                    <button type="submit" class="p-2 btn-primary" onclick="location.href='/idol-group/add'">
+                    <button type="submit" class="mb-1 btn btn-primary" onclick="location.href='/idol-group/add'">
                         <i class="fas fa-plus fa-lg"></i>
                     </button>
                 </div>
@@ -33,11 +29,11 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">KorName</th>
-                        <th scope="col">EngName</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Edit</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">한글명</th>
+                        <th scope="col">영문명</th>
+                        <th scope="col">대표 이미지</th>
+                        <th scope="col">수정</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,6 +53,7 @@
                     </tr>
                     </tbody>
                 </table>
+                <h5 th:if="${success} == -1" class="text-center mt-4 text-danger">검색된 그룹이 없습니다.</h5>
             </div>
 
         </div>

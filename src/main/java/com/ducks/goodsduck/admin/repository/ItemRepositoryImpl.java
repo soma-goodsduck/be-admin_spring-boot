@@ -21,13 +21,11 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom {
     }
 
     @Override
-    public List<Tuple> findWithTOP5() {
+    public List<Tuple> findAllWithItemCount() {
         return queryFactory
                 .select(item, item.count())
                 .from(item)
-                .where(item.tradeStatus.eq(TradeStatus.COMPLETE))
                 .groupBy(item.idolMember.idolGroup)
-                .limit(5)
                 .fetch();
     }
 }

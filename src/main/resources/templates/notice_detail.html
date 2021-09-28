@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group m-5">
                         <h5 class="mb-3">내용</h5>
-                        <input type="text" class="form-control" id="content" th:value="${notice.content}" readonly>
+                        <textarea type="text" class="form-control" id="content" th:text="${notice.content}" readonly></textarea>
                     </div>
                     <button type="button" class="btn btn-danger float-end me-5" onclick="location.href='/notices'">
                         <i class="fas fa-arrow-left fa-lg"></i>

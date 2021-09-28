@@ -10,8 +10,8 @@
             <!-- search content -->
             <div class="card shadow m-5 p-4" style="width:400px">
                 <form action="/item" method="get">
-                    <input type="text" name="search" id="search" class="p-2 me-2" value="아이템 번호로 검색" onclick="erase()" style="width:85%;">
-                    <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                    <input type="text" name="search" id="search" class="form-control d-inline p-2 me-2" value="아이템 번호로 검색" onclick="erase()" style="width:84%;">
+                    <button type="submit" class="mb-1 btn btn-success"><i class="fas fa-search"></i></button>
                 </form>
             </div>
 
@@ -21,12 +21,13 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Trade Status</th>
-                        <th scope="col">Idol Group</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Delete</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">가격</th>
+                        <th scope="col">거래 상태</th>
+                        <th scope="col">그룹명</th>
+                        <th scope="col">닉네임</th>
+                        <th scope="col">대표 이미지</th>
+                        <th scope="col">삭제</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,7 @@
                         <td th:text="${item.price}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Price</td>
                         <td th:text="${item.tradeStatus}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Trade Status</td>
                         <td th:text="${item.idolGroup}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Idol Group</td>
+                        <td th:text="${item.nickName}" th:onclick="'location.href=\'/item/'+${item.id}+'\''">Nickname</td>
                         <td th:onclick="'location.href=\'/item/'+${item.id}+'\''" class="itemTd" style="cursor:pointer">
                             <img th:src="${item.imageURL}" width="100rem" height="100rem">
                         </td>
@@ -48,6 +50,50 @@
                     </tbody>
                 </table>
                 <h5 th:if="${success} == -1" class="text-center mt-4 text-danger">검색된 아이템이 없습니다.</h5>
+            </div>
+
+            <!-- pagination -->
+            <div th:if="${success != -1}" class="d-flex justify-content-center">
+                <nav th:if="${!items.isEmpty()}"
+                    th:with="
+                        pageSize = 10,
+                        pageNumber = ${items.pageable.pageNumber},
+                        totalPages = ${items.totalPages},
+                        startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},
+                        tempEndPage = ${startPage + pageSize - 1},
+                        endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"
+                    aria-label="Page navigation"
+                >
+                    <ul class="pagination">
+                        <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/items(page=1)}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${startPage - pageSize < 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/items(page=${#numbers.formatDecimal(startPage - pageSize, 0, 0)})}" aria-label="Previous">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link" th:href="@{/items(page=${page})}"></a>
+                        </li>
+
+                        <li th:classappend="${startPage + pageSize > totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/items(page=${#numbers.formatDecimal(startPage + pageSize, 0, 0)})}" aria-label="Next">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${T(Math).floor(totalPages / 10) * 10 <= startPage} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/items(page=${totalPages})}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>
@@ -66,15 +112,17 @@
                 type: "get",
                 url: "/item/delete/" + itemId,
             })
-                .done(function(data) {
-                    if(data.success == 1) {
-                        $("#" + itemId).hide();
-                        document.location.reload(true);
-                    }
-                })
-                .fail(function(data, error) {
-                    console.log(error);
-                })
+            .done(function(data) {
+                if(data.success == 1) {
+                    $("#" + itemId).hide();
+                    document.location.reload(true);
+                } else {
+                    alert("아이템 삭제에 실패했습니다.");
+                }
+            })
+            .fail(function(data, error) {
+                console.log(error);
+            })
         } else {
             return false;
         }

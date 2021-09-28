@@ -16,6 +16,7 @@ public class ItemDetail {
     private TradeStatus tradeStatus;
     private String idolGroup;
     private String description;
+    private String nickName;
     private List<String> imageURLs;
 
     public ItemDetail(Item item) {
@@ -25,6 +26,7 @@ public class ItemDetail {
         this.tradeStatus =  item.getTradeStatus();
         this.idolGroup = item.getIdolMember().getIdolGroup().getName();
         this.description = item.getDescription();
+        this.nickName = item.getUser().getNickName();
         this.imageURLs = item.getImages()
                 .stream()
                 .map(itemImage -> itemImage.getUrl())

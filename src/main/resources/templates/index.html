@@ -59,53 +59,26 @@
             <div class="row">
 
                 <!-- chart wrapper1 -->
-                <div class="col-xl-7 col-lg-6">
+                <div class="col-xl-6 col-lg-6">
                     <div class="card shadow m-4 ms-5">
                         <div class="card-header border-dark py-3">
-                            <h5 class="m-0 font-weight-bold text-dark text-center">TOP5 Best Selling Idol Group</h5>
+                            <h5 class="m-0 font-weight-bold text-dark text-center">그룹별 등록 굿즈 현황</h5>
                         </div>
 
                         <!-- chart content1 -->
-                        <div class="card-body" th:each="idolGroup,i:${idolGroupTOP5}">
-                            <h4 class="small font-weight-bold pt-4">
+                        <div class="card-body" th:each="idolGroup,i:${idolGroupStatistics}">
+                            <h6 class="font-weight-bold pt-4">
                                 <span th:text="${idolGroup.name}"></span>
                                 <span class="float-right">
-                                    <span th:text="|${idolGroup.ratio}%|"></span>
+                                    <span th:text="|(${idolGroup.ratio}%)|"></span>
                                 </span>
-                            </h4>
-                            <div class="progress mb-4" th:if="${i.index eq 0}">
-                                <div class="progress-bar bg-danger" role="progressbar"
+                            </h6>
+                            <div class="progress mb-4" style="height:20px;">
+                                <div class="progress-bar" th:id="|chart1-bg-color${i.index}|" role="progressbar"
                                      th:style="|width:${idolGroup.ratio}%|"
                                      th:attr="aria-valuenow=${idolGroup.ratio}"
-                                     aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                            <div class="progress mb-4" th:if="${i.index eq 1}">
-                                <div class="progress-bar bg-warning" role="progressbar"
-                                     th:style="|width:${idolGroup.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroup.ratio}"
-                                     aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                            <div class="progress mb-4" th:if="${i.index eq 2}">
-                                <div class="progress-bar bg-primary" role="progressbar"
-                                     th:style="|width:${idolGroup.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroup.ratio}"
-                                     aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                            <div class="progress mb-4" th:if="${i.index eq 3}">
-                                <div class="progress-bar bg-info" role="progressbar"
-                                     th:style="|width:${idolGroup.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroup.ratio}"
-                                     aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                            <div class="progress mb-4" th:if="${i.index eq 4}">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                     th:style="|width:${idolGroup.ratio}%|"
-                                     th:attr="aria-valuenow=${idolGroup.ratio}"
-                                     aria-valuemin="0" aria-valuemax="100">
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     th:text="${idolGroup.count}">
                                 </div>
                             </div>
                         </div>
@@ -114,31 +87,59 @@
                 </div>
 
                 <!-- chart wrapper2 -->
-                <div class=" col-xl-5 col-lg-6">
+                <div class="col-xl-6 col-lg-6">
                     <div class="card shadow m-4 me-5">
                         <div class="card-header border-dark py-3">
-                            <h5 class="m-0 font-weight-bold text-dark text-center">Idol Group Fan Ratio</h5>
+                            <h5 class="m-0 font-weight-bold text-dark text-center">유저가 좋아하는 그룹 순위</h5>
                         </div>
 
                         <!-- chart content2 -->
-                        <div class="card-body">
-                            <div class="mt-5 mb-5 pt-4 pb-4">
-                                <canvas id="myPieChart" height="400vh"></canvas>
-                            </div>
-                            <div class="mt-4 text-center small">
-                                <span class="p-2">
-                                    <i class="fas fa-circle text-primary"></i> Direct
+                        <div class="card-body" th:each="idolGroup,i:${likeIdolGroupStatistics}">
+                            <h6 class="font-weight-bold pt-4">
+                                <span th:text="${idolGroup.name}"></span>
+                                <span class="float-right">
+                                    <span th:text="|(${idolGroup.ratio}%)|"></span>
                                 </span>
-                                <span class="p-2">
-                                    <i class="fas fa-circle text-success"></i> Social
-                                </span>
-                                <span class="p-2">
-                                    <i class="fas fa-circle text-info"></i> Referral
-                                </span>
+                            </h6>
+                            <div class="progress mb-4" style="height:20px;">
+                                <div class="progress-bar" th:id="|chart2-bg-color${i.index}|" role="progressbar"
+                                     th:style="|width:${idolGroup.ratio}%|"
+                                     th:attr="aria-valuenow=${idolGroup.ratio}"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     th:text="${idolGroup.count}">
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
+                <!-- chart wrapper2 -->
+<!--                <div class=" col-xl-5 col-lg-6">-->
+<!--                    <div class="card shadow m-4 me-5">-->
+<!--                        <div class="card-header border-dark py-3">-->
+<!--                            <h5 class="m-0 font-weight-bold text-dark text-center">Idol Group Fan Ratio</h5>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; chart content2 &ndash;&gt;-->
+<!--                        <div class="card-body">-->
+<!--                            <div class="mt-5 mb-5 pt-4 pb-4">-->
+<!--                                <canvas id="myPieChart" height="400vh"></canvas>-->
+<!--                            </div>-->
+<!--                            <div class="mt-4 text-center small">-->
+<!--                                <span class="p-2">-->
+<!--                                    <i class="fas fa-circle text-primary"></i> Direct-->
+<!--                                </span>-->
+<!--                                <span class="p-2">-->
+<!--                                    <i class="fas fa-circle text-success"></i> Social-->
+<!--                                </span>-->
+<!--                                <span class="p-2">-->
+<!--                                    <i class="fas fa-circle text-info"></i> Referral-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
             </div>
 
@@ -152,20 +153,23 @@
                 <div class="row justify-content-evenly p-5">
                     <div class="card border-0" style="width: 18rem;">
                         <img class="card-img-top" src="/img/kim.png" alt="Card image cap">
+                        <h6 class="text-center mt-1 fw-bold">Kim TaeHo</h6>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text text-center  text-black-50">Backend Developer</p>
                         </div>
                     </div>
                     <div class="card border-0" style="width: 18rem;">
                         <img class="card-img-top" src="/img/lee.png" alt="Card image cap">
+                        <h6 class="text-center mt-1 fw-bold">Lee DoWon</h6>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text text-center  text-black-50">Frontend Developer</p>
                         </div>
                     </div>
                     <div class="card border-0" style="width: 18rem;">
                         <img class="card-img-top" src="/img/park.png" alt="Card image cap">
+                        <h6 class="text-center mt-1 fw-bold">Park KyungWon</h6>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text text-center text-black-50">Backend Developer</p>
                         </div>
                     </div>
                 </div>
@@ -177,31 +181,44 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
-    var ctx = document.getElementById("myPieChart");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [55, 30, 15],
-                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                hoverBorderColor: "rgba(234, 236, 244, 1)",
-            }],
-        },
-        options: {
-            cutoutPercentage: 80,
-            maintainAspectRatio: false,
-            tooltips: {
-                backgroundColor: "rgb(255,255,255)",
-                bodyFontColor: "#858796",
-                borderColor: '#dddfeb',
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                caretPadding: 10,
-                },
-        },
-    });
+    /* <![CDATA[ */
+    var idolGroupCount = /*[[${idolGroupCount}]]*/;
+    /* ]]> */
+
+    for(var i = 0; i < idolGroupCount; i++) {
+        var color = Math.random()*0xffffff;
+        color = parseInt(color);
+        color = color.toString(16);
+
+        $(`#chart1-bg-color${i}`).css("background-color", "#"+color);
+        $(`#chart2-bg-color${i}`).css("background-color", "#"+color);
+    }
+
+    // var ctx = document.getElementById("myPieChart");
+    // var myPieChart = new Chart(ctx, {
+    //     type: 'doughnut',
+    //     data: {
+    //         datasets: [{
+    //             data: [55, 30, 15],
+    //             backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+    //             hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+    //             hoverBorderColor: "rgba(234, 236, 244, 1)",
+    //         }],
+    //     },
+    //     options: {
+    //         cutoutPercentage: 80,
+    //         maintainAspectRatio: false,
+    //         tooltips: {
+    //             backgroundColor: "rgb(255,255,255)",
+    //             bodyFontColor: "#858796",
+    //             borderColor: '#dddfeb',
+    //             borderWidth: 1,
+    //             xPadding: 15,
+    //             yPadding: 15,
+    //             displayColors: false,
+    //             caretPadding: 10,
+    //             },
+    //     },
+    // });
 </script>
 </html>

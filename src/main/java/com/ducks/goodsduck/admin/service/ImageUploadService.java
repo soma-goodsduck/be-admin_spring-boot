@@ -44,15 +44,6 @@ public class ImageUploadService {
     private static String region = secret.getString("cloud.aws.region.static");
     private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
 
-//    private static String localFilePath = jsonOfAwsSecrets.optString("spring.file.path.local", PropertyUtil.getProperty("spring.file.path.local"));
-//    private static String itemS3Bucket = jsonOfAwsSecrets.optString("cloud.aws.s3.itemBucket", PropertyUtil.getProperty("cloud.aws.s3.itemBucket"));
-//    private static String profileS3Bucket = jsonOfAwsSecrets.optString("cloud.aws.s3.profileBucket", PropertyUtil.getProperty("cloud.aws.s3.profileBucket"));
-//    private static String chatS3Bucket = jsonOfAwsSecrets.optString("cloud.aws.s3.chatBucket", PropertyUtil.getProperty("cloud.aws.s3.chatBucket"));
-//    private static String postS3Bucket = jsonOfAwsSecrets.optString("cloud.aws.s3.postBucket", PropertyUtil.getProperty("cloud.aws.s3.postBucket"));
-//    private static String accessKey = jsonOfAwsSecrets.optString("cloud.aws.credentials.accessKey", PropertyUtil.getProperty("cloud.aws.credentials.accessKey"));
-//    private static String secretKey = jsonOfAwsSecrets.optString("cloud.aws.credentials.secretKey", PropertyUtil.getProperty("cloud.aws.credentials.secretKey"));
-//    private static String region = jsonOfAwsSecrets.optString("cloud.aws.region.static", PropertyUtil.getProperty("cloud.aws.region.static"));
-
     public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException, ImageProcessingException, MetadataException {
 
         List<Image> images = new ArrayList<>();
@@ -73,7 +64,7 @@ public class ImageUploadService {
     public Image uploadImage(MultipartFile multipartFile) throws IOException, ImageProcessingException, MetadataException {
 
         // S3 셋팅
-        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIA2UXBT6BU3H4MGY5U", "KMf3pmEvEh5EY/FWykMEr8UpsP47Cz/TWvH/nhBW");
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeyS3, secretKeyS3);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(region)
@@ -94,7 +85,7 @@ public class ImageUploadService {
         int orientation = 1;
         Metadata metadata = ImageMetadataReader.readMetadata(multipartFile.getInputStream());
         ExifIFD0Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-        if(directory != null && directory.getTagCount() != 0) {
+        if(directory != null && directory.getTagCount() != 0 && directory.containsTag(ExifIFD0Directory.TAG_ORIENTATION)) {
             orientation = directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
         }
 

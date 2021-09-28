@@ -7,56 +7,98 @@
     <div id="content-wrapper">
         <div class="container-fluid">
 
-            <!-- search & add content wrapper -->
-            <div class="card2 shadow m-5 p-4 d-flex" style="width: 470px">
+            <!-- search content wrapper -->
+            <div class="card shadow m-5 p-4" style="width:600px">
 
                 <!-- search content -->
-                <div style="width:400px;">
-                    <form action="/idol-groups" method="get">
-                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
-                        <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
-                    </form>
-                </div>
-
-                <!-- idolGroup add button content -->
-                <div>
-                    <button type="submit" class="p-2 btn-primary" onclick="location.href='/idol-group/add'">
-                        <i class="fas fa-plus fa-lg"></i>
-                    </button>
-                </div>
+                <form action="/user" method="get">
+                    <select class="form-select d-inline p-2 me-2" aria-label="Default select example" name="type" style="width:135px">
+                        <option value="id">아이디</option>
+                        <option value="nickName" selected>닉네임</option>
+                        <option value="email">이메일</option>
+                        <option value="phoneNumber">전화번호</option>
+                    </select>
+                    <input type="text" name="search" id="search" class="form-control p-2 me-2 d-inline" onclick="erase()" style="width:63%;">
+                    <button type="submit" class="mb-1 btn btn-success"><i class="fas fa-search"></i></button>
+                </form>
 
             </div>
 
-            <!-- idolGroup table content -->
+            <!-- user table content -->
             <div class="card shadow m-5 p-5">
                 <table class="table table-striped text-center">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">KorName</th>
-                        <th scope="col">EngName</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Edit</th>
+                        <th scope="col">닉네임</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">전화번호</th>
+                        <th scope="col">레벨</th>
+                        <th scope="col">신고 횟수</th>
+                        <th scope="col">마지막 로그인</th>
+<!--                        <th scope="col">Profile Image</th>-->
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="idolGroup,i:${idolGroups}" class="align-middle">
-                        <th scope="row" th:text="${idolGroup.id}">ID</th>
-                        <td th:text="${idolGroup.name}">Name</td>
-                        <td th:text="${idolGroup.korName}">KorName</td>
-                        <td th:text="${idolGroup.engName}">EngName</td>
-                        <td>
-                            <img th:src="${idolGroup.imageURL}" width="100rem" height="100rem">
-                        </td>
-                        <td>
-                            <button class="btn btn-warning" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${idolGroup.id}+'\''">
-                                <i class="fas fa-edit ps-1 pb-1"></i>
-                            </button>
-                        </td>
+                    <tr th:each="user,i:${users}" class="align-middle">
+                        <th scope="row" th:text="${user.id}">ID</th>
+                        <td th:text="${user.nickName}">닉네임</td>
+                        <td th:text="${user.email}">이메일</td>
+                        <td th:text="${user.phoneNumber}">전화번호</td>
+                        <td th:text="${user.level}">레벨</td>
+                        <td th:text="${user.reportCount}">신고 횟수</td>
+                        <td th:text="${user.lastLoginDate}">마지막 로그인</td>
+<!--                        <td>-->
+<!--                            <img th:src="${user.imageURL}" width="100rem" height="100rem">-->
+<!--                        </td>-->
                     </tr>
                     </tbody>
                 </table>
+                <h5 th:if="${success} == -1" class="text-center mt-4 text-danger">검색된 유저가 없습니다.</h5>
+            </div>
+
+            <!-- pagination -->
+            <div th:if="${success != -1}" class="d-flex justify-content-center">
+                <nav th:if="${!users.isEmpty()}"
+                        th:with="
+                        pageSize = 10,
+                        pageNumber = ${users.pageable.pageNumber},
+                        totalPages = ${users.totalPages},
+                        startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},
+                        tempEndPage = ${startPage + pageSize - 1},
+                        endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"
+                        aria-label="Page navigation"
+                >
+                    <ul class="pagination">
+                        <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/users(page=1)}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${startPage - pageSize < 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/users(page=${#numbers.formatDecimal(startPage - pageSize, 0, 0)})}" aria-label="Previous">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link" th:href="@{/users(page=${page})}"></a>
+                        </li>
+
+                        <li th:classappend="${startPage + pageSize > totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/users(page=${#numbers.formatDecimal(startPage + pageSize, 0, 0)})}" aria-label="Next">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${T(Math).floor(totalPages / 10) * 10 <= startPage} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/users(page=${totalPages})}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>

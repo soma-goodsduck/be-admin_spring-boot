@@ -1,6 +1,6 @@
 package com.ducks.goodsduck.admin.model.dto.post;
 
-import com.ducks.goodsduck.admin.model.entity.Image.Post;
+import com.ducks.goodsduck.admin.model.entity.Post;
 import lombok.Data;
 
 import java.time.LocalDateTime;

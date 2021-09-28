@@ -13,21 +13,14 @@ import javax.persistence.*;
 public class Address {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
+    @Column(name = "address_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     private String name;
     private String phoneNumber;
-    private String fullAddress;
-
-    public Address(User user, String name, String phoneNumber, String fullAddress) {
-        this.user = user;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.fullAddress = fullAddress;
-    }
+    private String detailAddress;
 }

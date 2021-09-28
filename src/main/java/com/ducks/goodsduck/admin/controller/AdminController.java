@@ -46,7 +46,7 @@ public class AdminController {
     @PostMapping("/verify/email")
     @ResponseBody
     public CheckDto verifyEmailCode(@RequestBody VerifyEmailDto verifyEmailDto) {
-        if(verifyEmailDto.getEmail() != null && verifyEmailDto.getCode() != null &&
+        if(!verifyEmailDto.getEmail().equals("") && !verifyEmailDto.getCode().equals("") &&
                 emailAuthenticationRepository.getCode(verifyEmailDto.getEmail()).equals(verifyEmailDto.getCode())) {
             return new CheckDto(1L);
         } else {

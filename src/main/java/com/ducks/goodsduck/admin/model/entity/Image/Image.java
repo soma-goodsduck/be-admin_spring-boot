@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -20,6 +21,7 @@ public class Image {
     private String originName;
     private String uploadName;
     private String url;
+    private LocalDateTime deletedAt;
 
     public Image(String originName, String uploadName, String url) {
         this.originName = originName;

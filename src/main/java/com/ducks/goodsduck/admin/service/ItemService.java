@@ -1,6 +1,7 @@
 package com.ducks.goodsduck.admin.service;
 
 import com.ducks.goodsduck.admin.model.entity.*;
+import com.ducks.goodsduck.admin.model.entity.Image.Image;
 import com.ducks.goodsduck.admin.model.entity.Image.ItemImage;
 import com.ducks.goodsduck.admin.repository.ChatRepository;
 import com.ducks.goodsduck.admin.repository.ItemRepository;
@@ -84,8 +85,41 @@ public class ItemService {
     public Long deleteV2(Long itemId) {
 
         try {
-            Item item = itemRepository.findById(itemId).get();
-            item.setDeletedAt(LocalDateTime.now());
+            Item deleteItem = itemRepository.findById(itemId).get();
+
+            // user's Item 목록 삭제
+            User user = deleteItem.getUser();
+            List<Item> deleteItemsOfUser = user.getItems();
+            deleteItemsOfUser.remove(deleteItem);
+
+            // image 연관 삭제
+            List<ItemImage> deleteItemImages = deleteItem.getImages();
+            for (Image deleteImage : deleteItemImages) {
+                deleteImage.setDeletedAt(LocalDateTime.now());
+            }
+
+            // pricePropose 연관 삭제
+            List<PricePropose> deletePriceProposes = priceProposeRepository.findAllByItemIdWithAllStatus(itemId);
+            for (PricePropose deletePricePropose : deletePriceProposes) {
+                deletePricePropose.setDeletedAt(LocalDateTime.now());
+            }
+
+            // userChat, chat 연관 삭제
+            List<UserChat> deleteUserChats = userChatRepository.findByItemId(itemId);
+            for (UserChat deleteUserChat : deleteUserChats) {
+                deleteUserChat.setDeletedAt(LocalDateTime.now());
+                deleteUserChat.getChat().setDeletedAt(LocalDateTime.now());
+            }
+
+            // userItem 연관 삭제
+            List<UserItem> deleteUserItems = userItemRepository.findByItemId(itemId);
+            for (UserItem deleteUserItem : deleteUserItems) {
+                deleteUserItem.setDeletedAt(LocalDateTime.now());
+            }
+
+            // Item 삭제
+            deleteItem.setDeletedAt(LocalDateTime.now());
+
             return 1L;
         } catch (Exception e) {
             return -1L;

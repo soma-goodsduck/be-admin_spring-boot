@@ -13,6 +13,7 @@ public class ItemDto {
     private TradeStatus tradeStatus;
     private String idolGroup;
     private String imageURL;
+    private String nickName;
 
     public ItemDto(Item item) {
         this.id = item.getId();
@@ -21,5 +22,6 @@ public class ItemDto {
         this.tradeStatus =  item.getTradeStatus();
         this.idolGroup = item.getIdolMember().getIdolGroup().getName();
         this.imageURL = item.getImages().get(0).getUrl();
+        this.nickName = item.getUser().getNickName();
     }
 }

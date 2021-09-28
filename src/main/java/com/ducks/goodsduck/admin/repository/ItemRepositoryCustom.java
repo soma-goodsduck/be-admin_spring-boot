@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ItemRepositoryCustom {
 
-    List<Tuple> findWithTOP5();
+    List<Tuple> findAllWithItemCount();
 }

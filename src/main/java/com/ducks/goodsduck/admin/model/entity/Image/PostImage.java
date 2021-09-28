@@ -1,5 +1,6 @@
 package com.ducks.goodsduck.admin.model.entity.Image;
 
+import com.ducks.goodsduck.admin.model.entity.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

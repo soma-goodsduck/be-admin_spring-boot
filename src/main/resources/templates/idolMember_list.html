@@ -10,17 +10,13 @@
             <!-- search & add content wrapper -->
             <div class="card2 shadow m-5 p-4 d-flex" style="width: 470px">
 
-                <!-- search content -->
-                <div style="width:400px;">
-                    <form action="/idol-members" method="get">
-                        <input type="text" name="search" id="search" class="p-2 me-2" value="(뭘로 검색할까?)" onclick="erase()" style="width:85%; border-radius: .2rem;">
-                        <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+                <!-- search & add content -->
+                <div style="width:100%;">
+                    <form action="/idol-member" method="get" class="d-inline">
+                        <input type="text" name="search" id="search" class="form-control d-inline p-2 me-2" value="멤버 이름으로 검색" onclick="erase()" style="width:73%;">
+                        <button type="submit" class="mb-1 me-2 btn btn-success"><i class="fas fa-search"></i></button>
                     </form>
-                </div>
-
-                <!-- idolMember add button content -->
-                <div>
-                    <button type="submit" class="p-2 btn-primary" onclick="location.href='/idol-group/select'">
+                    <button type="submit" class="mb-1 btn btn-primary" onclick="location.href='/idol-group/add'">
                         <i class="fas fa-plus fa-lg"></i>
                     </button>
                 </div>
@@ -33,11 +29,11 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Group Name</th>
-                        <th scope="col">Group Image</th>
-                        <th scope="col">Edit</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">이미지</th>
+                        <th scope="col">그룹명</th>
+                        <th scope="col">대표 이미지</th>
+                        <th scope="col">수정</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -59,6 +55,51 @@
                     </tr>
                     </tbody>
                 </table>
+                <h5 th:if="${success} == -1" class="text-center mt-4 text-danger">검색된 멤버가 없습니다.</h5>
+            </div>
+
+            <!-- pagination -->
+            <div th:if="${success != -1}" class="d-flex justify-content-center">
+                <nav th:if="${!idolMembers.isEmpty()}"
+                     th:with="
+                        pageSize = 10,
+                        pageNumber = ${idolMembers.pageable.pageNumber},
+                        totalPages = ${idolMembers.totalPages},
+                        startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},
+                        tempEndPage = ${startPage + pageSize - 1},
+                        endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"
+                     aria-label="Page navigation"
+                >
+                    <ul class="pagination">
+                        <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/idol-members(page=1)}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${startPage - pageSize < 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/idol-members(page=${#numbers.formatDecimal(startPage - pageSize, 0, 0)})}" aria-label="Previous">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link" th:href="@{/idol-members(page=${page})}"></a>
+                        </li>
+
+                        <li th:classappend="${startPage + pageSize > totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/idol-members(page=${#numbers.formatDecimal(startPage + pageSize, 0, 0)})}" aria-label="Next">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${T(Math).floor(totalPages / 10) * 10 <= startPage} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/idol-members(page=${totalPages})}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>

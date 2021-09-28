@@ -7,12 +7,21 @@
     <div id="content-wrapper">
         <div class="container-fluid">
 
-            <!-- search content -->
-            <div class="card shadow m-5 p-4" style="width:400px">
-                <form action="/item" method="get">
-                    <input type="text" name="search" id="search" class="p-2 me-2" value="아이템 번호로 검색" onclick="erase()" style="width:85%;">
-                    <button type="submit" class="p-2 btn-success"><i class="fas fa-search"></i></button>
+            <!-- search content wrapper-->
+            <div class="card shadow m-5 p-4" style="width:600px">
+
+                <!-- search content -->
+                <form action="/report" method="get">
+                    <select class="form-select d-inline p-2 me-2" aria-label="Default select example" name="type" style="width:135px">
+                        <option value="senderNickName">신고자</option>
+<!--                        <option value="senderId">신고자 ID</option>-->
+                        <option value="receiverNickName" selected>신고대상</option>
+<!--                        <option value="receiverId" selected>신고대상 ID</option>-->
+                    </select>
+                    <input type="text" name="search" id="search" class="form-control p-2 me-2 d-inline" onclick="erase()" style="width:63%;">
+                    <button type="submit" class="mb-1 btn btn-success"><i class="fas fa-search"></i></button>
                 </form>
+
             </div>
 
             <!-- report table content -->
@@ -22,19 +31,25 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">신고자</th>
+<!--                        <th scope="col">신고자 ID</th>-->
                         <th scope="col">신고대상</th>
+<!--                        <th scope="col">신고대상 ID</th>-->
+                        <th scope="col">카테고리</th>
                         <th scope="col">종류</th>
-                        <th scope="col">내용</th>
+                        <th scope="col">날짜</th>
                         <th scope="col">처리</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="report,i:${reports}" class="align-middle">
                         <th scope="row" th:text="${report.id}">ID</th>
-                        <td th:text="${report.sender.nickName}">SenderNickName</td>
-                        <td th:text="${report.receiver.nickName}">ReceiverNickName</td>
+                        <td th:text="${report.sender.nickName}">SenderNickname</td>
+<!--                        <td th:text="${report.sender.id}">SenderID</td>-->
+                        <td th:text="${report.receiver.nickName}">ReceiverNickname</td>
+<!--                        <td th:text="${report.receiver.id}">ReceiverID</td>-->
                         <td th:text="${report.categoryName}">CategoryName</td>
-                        <td th:text="${report.content}">Content</td>
+                        <td th:text="${report.reportType}">ReportType</td>
+                        <td th:text="${report.reportDate}">ReportDate</td>
                         <td>
                             <button class="btn btn-danger" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${report.id}+'\''">
                                 <i class="fas fa-bullhorn"></i>
@@ -43,6 +58,51 @@
                     </tr>
                     </tbody>
                 </table>
+                <h5 th:if="${success == -1}" class="text-center mt-4 text-danger">검색된 신고가 없습니다.</h5>
+            </div>
+
+            <!-- pagination -->
+            <div th:if="${success != -1}" class="d-flex justify-content-center">
+                <nav th:if="${!reports.isEmpty()}"
+                     th:with="
+                        pageSize = 10,
+                        pageNumber = ${reports.pageable.pageNumber},
+                        totalPages = ${reports.totalPages},
+                        startPage = ${T(Math).floor(pageNumber / pageSize) * pageSize + 1},
+                        tempEndPage = ${startPage + pageSize - 1},
+                        endPage = (${tempEndPage > totalPages ? totalPages : tempEndPage})"
+                     aria-label="Page navigation"
+                >
+                    <ul class="pagination">
+                        <li th:classappend="${pageNumber + 1 <= pageSize + 1} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/reports(page=1)}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${startPage - pageSize < 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/reports(page=${#numbers.formatDecimal(startPage - pageSize, 0, 0)})}" aria-label="Previous">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                            <a th:text="${page}" class="page-link" th:href="@{/reports(page=${page})}"></a>
+                        </li>
+
+                        <li th:classappend="${startPage + pageSize > totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/reports(page=${#numbers.formatDecimal(startPage + pageSize, 0, 0)})}" aria-label="Next">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+
+                        <li th:classappend="${T(Math).floor(totalPages / 10) * 10 <= startPage} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{/reports(page=${totalPages})}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
         </div>

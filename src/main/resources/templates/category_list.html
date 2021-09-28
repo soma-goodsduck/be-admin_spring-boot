@@ -8,11 +8,11 @@
         <div class="container-fluid">
 
             <!-- search & add content wrapper -->
-            <div class="card2 shadow m-5 p-4 d-flex" style="width:90px">
+            <div class="card2 shadow m-5 p-4 d-flex" style="width:95px">
 
                 <!-- category add button content -->
                 <div>
-                    <button type="submit" class="p-2 btn-primary" th:onclick="'location.href=\'/category/'+@{${type}}+'/add\''">
+                    <button type="submit" class="mb-1 btn btn-primary" th:onclick="'location.href=\'/category/'+@{${type}}+'/add\''">
                         <i class="fas fa-plus fa-lg"></i>
                     </button>
                 </div>
@@ -25,8 +25,8 @@
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Edit</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">수정</th>
                     </tr>
                     </thead>
                     <tbody>

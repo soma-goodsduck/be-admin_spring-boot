@@ -108,21 +108,25 @@
             data: JSON.stringify(data)
         })
         .done(function(data) {
-            verifyCodeSuccess = true;
-            var newForm = document.createElement("div");
+            if(data.success == 1) {
+                verifyCodeSuccess = true;
+                var newForm = document.createElement("div");
 
-            var html = "";
-            html += "<p class=\"text-success mt-2\">이메일 인증에 성공했습니다.</p>";
+                var html = "";
+                html += "<p class=\"text-success mt-2\">이메일 인증에 성공했습니다.</p>";
 
-            newForm.innerHTML = html;
+                newForm.innerHTML = html;
 
-            var emailForm = document.getElementById("emailForm");
-            var codeForm = document.getElementById("codeForm");
-            emailForm.removeChild(codeForm);
-            emailForm.appendChild(newForm);
+                var emailForm = document.getElementById("emailForm");
+                var codeForm = document.getElementById("codeForm");
+                emailForm.removeChild(codeForm);
+                emailForm.appendChild(newForm);
 
-            var email = document.getElementById("email");
-            email.setAttribute("readonly", true);
+                var email = document.getElementById("email");
+                email.setAttribute("readonly", true);
+            } else {
+                alert("이메일 인증에 실패했습니다.");
+            }
         })
         .fail(function(data, error) {
             alert("이메일 인증에 실패했습니다.");

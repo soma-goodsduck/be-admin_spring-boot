@@ -1,6 +1,5 @@
 package com.ducks.goodsduck.admin.model.entity;
 
-import com.ducks.goodsduck.admin.model.entity.Image.Post;
 import com.ducks.goodsduck.admin.model.enums.UserRole;
 import lombok.AccessLevel;
 import lombok.Getter;

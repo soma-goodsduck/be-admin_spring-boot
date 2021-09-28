@@ -22,6 +22,7 @@ public class Notice {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     public Notice(NoticeUpload noticeUpload) {
         this.title = noticeUpload.getTitle();

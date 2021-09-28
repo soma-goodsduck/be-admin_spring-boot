@@ -13,6 +13,8 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.ducks.goodsduck.admin.model.enums.PriceProposeStatus.*;
+
 @Repository
 public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom {
 
@@ -32,7 +34,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
                 .from(pricePropose)
                 .where(pricePropose.user.id.eq(userId).and(
                         pricePropose.item.id.eq(itemId)
-                ).and(pricePropose.status.in(PriceProposeStatus.ACCEPTED, PriceProposeStatus.SUGGESTED)))
+                ).and(pricePropose.status.in(ACCEPTED, SUGGESTED)))
                 .fetchOne();
     }
 
@@ -42,7 +44,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
                 .select(pricePropose)
                 .from(pricePropose)
                 .where(pricePropose.item.id.eq(itemId)
-                .and(pricePropose.status.in(PriceProposeStatus.ACCEPTED, PriceProposeStatus.SUGGESTED)))
+                        .and(pricePropose.status.in(ACCEPTED, SUGGESTED)))
                 .orderBy(pricePropose.id.desc())
                 .fetch();
     }
@@ -63,7 +65,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
                 .set(pricePropose.price, price)
                 .set(pricePropose.createdAt, LocalDateTime.now())
                 .where(pricePropose.id.eq(priceProposeId).and(
-                        pricePropose.user.id.eq(userId)).and(pricePropose.status.eq(PriceProposeStatus.SUGGESTED))
+                        pricePropose.user.id.eq(userId)).and(pricePropose.status.eq(SUGGESTED))
                 )
                 .execute();
     }
@@ -73,9 +75,10 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
         return queryFactory
                 .select(pricePropose.item, pricePropose.user, pricePropose)
                 .from(pricePropose)
-                .where(pricePropose.item.in(items).and(
-                        pricePropose.status.eq(PriceProposeStatus.SUGGESTED)
-                ))
+                .where(pricePropose.item.in(items)
+                        .and(pricePropose.status.eq(SUGGESTED)
+                                .and(pricePropose.deletedAt.isNull())
+                        ))
                 .orderBy(pricePropose.id.desc())
                 .fetch();
     }
@@ -87,7 +90,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
                 .from(pricePropose)
                 .join(pricePropose.user, user)
                 .where(pricePropose.item.id.eq(itemId).and(
-                        pricePropose.status.eq(PriceProposeStatus.SUGGESTED)
+                        pricePropose.status.eq(SUGGESTED)
                 ))
                 .orderBy(pricePropose.id.desc())
                 .fetch();
@@ -98,7 +101,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
         return queryFactory.select(pricePropose.item, pricePropose)
                 .from(pricePropose)
                 .where(pricePropose.user.id.eq(userId).and(
-                        pricePropose.status.in(PriceProposeStatus.SUGGESTED, PriceProposeStatus.REFUSED)
+                        pricePropose.status.in(SUGGESTED, REFUSED)
                 ))
                 .orderBy(pricePropose.id.desc())
                 .fetch();
@@ -109,7 +112,7 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
         return queryFactory.update(pricePropose)
                 .set(pricePropose.status, status)
                 .where(pricePropose.id.eq(priceProposeId).and(
-                        pricePropose.status.eq(PriceProposeStatus.SUGGESTED)
+                        pricePropose.status.eq(SUGGESTED)
                 ))
                 .execute();
     }
@@ -119,7 +122,18 @@ public class PriceProposeRepositoryImpl implements PriceProposeRepositoryCustom 
         return queryFactory
                 .select(pricePropose)
                 .from(pricePropose)
-                .where(pricePropose.item.in(itemsByUserId).and(pricePropose.status.eq(PriceProposeStatus.SUGGESTED)))
+                .where(pricePropose.item.in(itemsByUserId).and(pricePropose.status.eq(SUGGESTED))
+                        .and(pricePropose.item.deletedAt.isNull()))
                 .fetchCount();
+    }
+
+    @Override
+    public PricePropose findByUserIdAndItemIdForChat(Long userId, Long itemId) {
+        return queryFactory
+                .select(pricePropose)
+                .from(pricePropose)
+                .where(pricePropose.user.id.eq(userId).and(pricePropose.item.id.eq(itemId))
+                        .and(pricePropose.status.eq(ACCEPTED)))
+                .fetchOne();
     }
 }

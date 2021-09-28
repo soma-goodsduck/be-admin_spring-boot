@@ -32,6 +32,7 @@ public class Review {
     private String content;
     private Integer score;
     private LocalDateTime createdAt;
+    private LocalDateTime deletedAt;
 
     public Review(User user, Item item, Long receiverId, String content, Integer score) {
         this.user = user;

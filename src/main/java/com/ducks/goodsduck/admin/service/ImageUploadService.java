@@ -13,9 +13,8 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.ducks.goodsduck.admin.model.entity.Image.Image;
-import com.ducks.goodsduck.admin.util.AwsSecretManagerUtil;
-import com.ducks.goodsduck.admin.util.PropertyUtil;
-import lombok.NoArgsConstructor;
+import com.ducks.goodsduck.admin.util.AwsSecretsManagerUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
 import org.json.JSONObject;
@@ -33,16 +32,23 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class ImageUploadService {
 
-    private static final JSONObject secret = AwsSecretManagerUtil.getSecret();
+//    private static final JSONObject secret = AwsSecretsManagerUtil.getSecret();
+//
+//    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
+//    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
+//    private static String region = secret.getString("cloud.aws.region.static");
+//    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
 
-    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
-    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
-    private static String region = secret.getString("cloud.aws.region.static");
-    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
+    static final JSONObject secret = AwsSecretsManagerUtil.getSecret();
+
+    static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
+    static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
+    static String region = secret.getString("cloud.aws.region.static");
+    static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
 
     public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException, ImageProcessingException, MetadataException {
 

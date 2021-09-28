@@ -19,7 +19,7 @@ public class PropertyUtil {
         if(applicationContext.getEnvironment().getProperty(propertyName) == null) {
             log.warn(propertyName + " properties was not loaded.");
         } else {
-            value = applicationContext.getEnvironment().getProperty(propertyName).toString();
+            value = applicationContext.getEnvironment().getProperty(propertyName);
         }
 
         return value;

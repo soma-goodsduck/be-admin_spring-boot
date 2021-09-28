@@ -6,23 +6,20 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
-import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
-@Slf4j
-public class AwsSecretManagerUtil {
-
-    private static String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
-    private static String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
+public class AwsSecretsManagerUtil {
 
     // Use this code snippet in your app.
     // If you need more information about configurations or implementing the sample code, visit the AWS docs:
     // https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/java-dg-samples.html#prerequisites
     public static JSONObject getSecret() {
 
+        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 

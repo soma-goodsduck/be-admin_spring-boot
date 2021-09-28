@@ -6,11 +6,13 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
+@Slf4j
 public class AwsSecretManagerUtil {
 
     private static String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
@@ -38,8 +40,6 @@ public class AwsSecretManagerUtil {
         GetSecretValueRequest getSecretValueRequest = new GetSecretValueRequest()
                 .withSecretId(secretName);
         GetSecretValueResult getSecretValueResult = null;
-
-        JSONObject jsonObject = new JSONObject();
 
         try {
             getSecretValueResult = client.getSecretValue(getSecretValueRequest);
@@ -76,7 +76,6 @@ public class AwsSecretManagerUtil {
             awsSecret = decodedBinarySecret;
         }
 
-        jsonObject = new JSONObject(awsSecret);
-        return jsonObject;
+        return new JSONObject(awsSecret);
     }
 }

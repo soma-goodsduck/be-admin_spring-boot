@@ -18,7 +18,7 @@ public class PropertyUtil {
         } else if (applicationContext.getEnvironment().getProperty(propertyName) == null) {
             log.debug(propertyName + " properties was not loaded!");
         }
-        
-        return "No Value";
+
+        return "123123";
     }
 }

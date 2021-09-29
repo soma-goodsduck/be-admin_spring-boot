@@ -39,10 +39,15 @@ public class ImageUploadService {
 
     private static final JSONObject secret = AwsSecretsManagerUtil.getSecret();
 
-    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
-    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
-    private static String region = secret.getString("cloud.aws.region.static");
-    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
+//    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
+//    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
+//    private static String region = secret.getString("cloud.aws.region.static");
+//    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
+
+    private static String accessKeyS3 = secret.optString("cloud.aws.credentials.accessKeyS3", "");
+    private static String secretKeyS3 = secret.optString("cloud.aws.credentials.secretKeyS3", "");
+    private static String region = secret.optString("cloud.aws.region.static", "");
+    private static String itemS3Bucket = secret.optString("cloud.aws.s3.itemBucket", "");
 
     public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException, ImageProcessingException, MetadataException {
 

@@ -14,11 +14,14 @@ import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.ducks.goodsduck.admin.model.entity.Image.Image;
 import com.ducks.goodsduck.admin.util.AwsSecretsManagerUtil;
+import com.ducks.goodsduck.admin.util.PropertyUtil;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
 import org.json.JSONObject;
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,15 +42,10 @@ public class ImageUploadService {
 
     private static final JSONObject secret = AwsSecretsManagerUtil.getSecret();
 
-//    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
-//    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
-//    private static String region = secret.getString("cloud.aws.region.static");
-//    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
-
-    private static String accessKeyS3 = secret.optString("cloud.aws.credentials.accessKeyS3", "");
-    private static String secretKeyS3 = secret.optString("cloud.aws.credentials.secretKeyS3", "");
-    private static String region = secret.optString("cloud.aws.region.static", "");
-    private static String itemS3Bucket = secret.optString("cloud.aws.s3.itemBucket", "");
+    private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
+    private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
+    private static String region = secret.getString("cloud.aws.region.static");
+    private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
 
     public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException, ImageProcessingException, MetadataException {
 
@@ -163,17 +161,13 @@ public class ImageUploadService {
 //        return localFilePath + fileName;
 //    }
 
-//    @EventListener
-//    public void setIfLocal(ApplicationPreparedEvent event) {
-//        if (jsonOfAwsSecrets.isEmpty()) {
-//            localFilePath = PropertyUtil.getProperty("spring.file.path.local");
-//            itemS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.itemBucket");
-//            profileS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.profileBucket");
-//            chatS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.chatBucket");
-//            postS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.postBucket");
-//            accessKey = PropertyUtil.getProperty("cloud.aws.credentials.accessKey");
-//            secretKey = PropertyUtil.getProperty("cloud.aws.credentials.secretKey");
-//            region = PropertyUtil.getProperty("cloud.aws.region.static");
-//        }
-//    }
+    @EventListener
+    public void setIfLocal(ApplicationPreparedEvent event) {
+        if (secret.isEmpty()) {
+            accessKeyS3 = PropertyUtil.getProperty("cloud.aws.credentials.accessKeyS3");
+            secretKeyS3 = PropertyUtil.getProperty("cloud.aws.credentials.secretKeyS3");
+            region = PropertyUtil.getProperty("cloud.aws.region.static");
+            itemS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.itemBucket");
+        }
+    }
 }

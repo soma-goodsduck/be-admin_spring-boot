@@ -7,6 +7,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
+@Slf4j
 public class AwsSecretsManagerUtil {
 
     public static JSONObject getSecret() {
@@ -25,6 +27,9 @@ public class AwsSecretsManagerUtil {
 
         // Create a Secrets Manager client
 //        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
+
+        log.info(System.getenv("AWS_ACCESS_KEY_ID"));
+
         AWSCredentials awsCredentials = new BasicAWSCredentials(System.getenv("AWS_ACCESS_KEY_ID"), System.getenv("AWS_SECRET_ACCESS_KEY"));
         AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))

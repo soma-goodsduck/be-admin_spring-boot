@@ -15,11 +15,10 @@ import java.util.Base64;
 
 public class AwsSecretsManagerUtil {
 
-    private static String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
-    private static String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
-
     public static JSONObject getSecret() {
 
+        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 

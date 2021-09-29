@@ -10,3 +10,19 @@ server:
     session:
       tracking-modes: cookie
 
+cloud:
+  aws:
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKeyS3: 123
+      secretKeyS3: 123
+      accessKeySecretManager: 123
+      secretKeySecretManager: 123
+    s3:
+      itemBucket: 123
+      profileBucket: 123
+      postBucket: 123
+      chatBucket: 123

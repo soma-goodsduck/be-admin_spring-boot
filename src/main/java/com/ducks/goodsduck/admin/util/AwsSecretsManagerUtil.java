@@ -3,6 +3,7 @@ package com.ducks.goodsduck.admin.util;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
@@ -29,7 +30,7 @@ public class AwsSecretsManagerUtil {
 //        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
         AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
 //                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withCredentials(new ProfileCredentialsProvider())
+                .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .withRegion(region)
                 .build();
 

@@ -3,6 +3,7 @@ package com.ducks.goodsduck.admin.util;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
@@ -19,15 +20,16 @@ public class AwsSecretsManagerUtil {
 
 //        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
 //        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
-        String accessKeySecretManager = System.getProperty("AWS_ACCESS_KEY_ID");
-        String secretKeySecretManager = System.getProperty("AWS_SECRET_ACCESS_KEY");
+//        String accessKeySecretManager = System.getProperty("AWS_ACCESS_KEY_ID");
+//        String secretKeySecretManager = System.getProperty("AWS_SECRET_ACCESS_KEY");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 
         // Create a Secrets Manager client
-        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
+//        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
         AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+//                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withCredentials(new ProfileCredentialsProvider())
                 .withRegion(region)
                 .build();
 

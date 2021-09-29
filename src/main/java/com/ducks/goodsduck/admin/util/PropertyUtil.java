@@ -19,6 +19,6 @@ public class PropertyUtil {
             log.debug(propertyName + " properties was not loaded!");
         }
 
-        return "123123";
+        return "Invalid";
     }
 }

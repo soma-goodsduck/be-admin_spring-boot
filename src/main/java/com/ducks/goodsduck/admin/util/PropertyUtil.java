@@ -16,10 +16,10 @@ public class PropertyUtil {
         String value = defaultValue;
         ApplicationContext applicationContext = ApplicationContextServe.getApplicationContext();
 
-        if(applicationContext.getEnvironment().getProperty(propertyName) == null) {
+        if(applicationContext.getEnvironment().getRequiredProperty(propertyName) == null) {
             log.warn(propertyName + " properties was not loaded.");
         } else {
-            value = applicationContext.getEnvironment().getProperty(propertyName);
+            value = applicationContext.getEnvironment().getRequiredProperty(propertyName);
         }
 
         return value;

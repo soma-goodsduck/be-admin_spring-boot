@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
 
 @SpringBootApplication
-@PropertySource(value = "classpath:/application-s3.yml")
+@PropertySource(value = "/opt/application_env/application-s3.yml")
 public class AdminApplication {
 
 	public static void main(String[] args) {

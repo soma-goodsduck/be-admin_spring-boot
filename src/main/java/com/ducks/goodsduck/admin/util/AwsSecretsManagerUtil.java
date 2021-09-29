@@ -9,9 +9,6 @@ import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
@@ -20,17 +17,13 @@ public class AwsSecretsManagerUtil {
 
     public static JSONObject getSecret() {
 
-//        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
-//        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
+        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 
         // Create a Secrets Manager client
-//        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
-
-        log.info(System.getenv("AWS_ACCESS_KEY_ID"));
-
-        AWSCredentials awsCredentials = new BasicAWSCredentials(System.getenv("AWS_ACCESS_KEY_ID"), System.getenv("AWS_SECRET_ACCESS_KEY"));
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
         AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(region)

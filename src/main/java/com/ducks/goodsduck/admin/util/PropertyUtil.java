@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class PropertyUtil {
 
     public static String getProperty(String propertyName) {
-        return getProperty(propertyName, "123");
+        return getProperty(propertyName, "123123123123");
     }
 
     public static String getProperty(String propertyName, String defaultValue) {

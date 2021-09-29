@@ -11,6 +11,7 @@ import com.ducks.goodsduck.admin.repository.idol.IdolGroupRepository;
 import com.ducks.goodsduck.admin.repository.idol.IdolMemberRepository;
 import com.ducks.goodsduck.admin.service.ImageUploadService;
 import com.ducks.goodsduck.admin.service.MenuService;
+import com.ducks.goodsduck.admin.util.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

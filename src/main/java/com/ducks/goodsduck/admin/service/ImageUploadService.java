@@ -156,18 +156,4 @@ public class ImageUploadService {
 
         return ext;
     }
-
-//    public String getFilePath(String fileName) {
-//        return localFilePath + fileName;
-//    }
-
-    @EventListener
-    public void setIfLocal(ApplicationPreparedEvent event) {
-        if (secret.isEmpty()) {
-            accessKeyS3 = PropertyUtil.getProperty("cloud.aws.credentials.accessKeyS3");
-            secretKeyS3 = PropertyUtil.getProperty("cloud.aws.credentials.secretKeyS3");
-            region = PropertyUtil.getProperty("cloud.aws.region.static");
-            itemS3Bucket = PropertyUtil.getProperty("cloud.aws.s3.itemBucket");
-        }
-    }
 }

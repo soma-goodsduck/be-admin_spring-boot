@@ -20,7 +20,7 @@ public class AwsSecretsManagerUtil {
 //        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
 //        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
         String accessKeySecretManager = System.getProperty("AWS_ACCESS_KEY_ID");
-        String secretKeySecretManager = System.getenv("AWS_SECRET_ACCESS_KEY");
+        String secretKeySecretManager = System.getProperty("AWS_SECRET_ACCESS_KEY");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 

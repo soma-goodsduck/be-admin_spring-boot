@@ -25,6 +25,6 @@ echo "> $JAR_PATH 배포"
 JAR_NAME=$(ls $JAR_PATH | grep '.jar' | tail -n 1)
 
 nohup java -jar \
-        -Dspring.config.location=/opt/be-admin_spring-boot/src/main/resources/application.yml,$ENV_PATH/application-s3.yml,$ENV_PATH/application-develop.yml \
+        -Dspring.config.location=$ENV_PATH/application.yml,$ENV_PATH/application-s3.yml,$ENV_PATH/application-develop.yml \
         $JAR_PATH/$JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
 

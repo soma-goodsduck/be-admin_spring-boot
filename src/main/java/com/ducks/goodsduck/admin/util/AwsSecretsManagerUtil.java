@@ -19,20 +19,26 @@ public class AwsSecretsManagerUtil {
 
     public static JSONObject getSecret() {
 
-//        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
-//        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
-//        String accessKeySecretManager = System.getProperty("AWS_ACCESS_KEY_ID");
-//        String secretKeySecretManager = System.getProperty("AWS_SECRET_ACCESS_KEY");
+        String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+        String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
         String secretName = "goodsduck/admin";
         String region = "ap-northeast-2";
 
         // Create a Secrets Manager client
-//        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
-        AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
-//                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .withCredentials(new DefaultAWSCredentialsProviderChain())
-                .withRegion(region)
-                .build();
+        AWSSecretsManager client;
+
+        if(accessKeySecretManager.equals("Invalid")) {
+            client = AWSSecretsManagerClientBuilder.standard()
+                    .withCredentials(new DefaultAWSCredentialsProviderChain())
+                    .withRegion(region)
+                    .build();
+        } else {
+            AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeySecretManager, secretKeySecretManager);
+            client = AWSSecretsManagerClientBuilder.standard()
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .withRegion(region)
+                    .build();
+        }
 
         // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
         // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html

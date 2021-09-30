@@ -37,6 +37,9 @@ dependencies {
 	// Security
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
 
+	// XSS
+	implementation group: 'com.navercorp.lucy', name: 'lucy-xss-servlet', version: '2.0.0'
+
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 

@@ -1,6 +1,7 @@
 package com.ducks.goodsduck.admin.config;
 
 import com.ducks.goodsduck.admin.filter.LoginCheckFilter;
+import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +19,14 @@ public class WebConfig {
         filterRegistrationBean.addUrlPatterns("/*");
 
         return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<XssEscapeServletFilter> getFilterRegistrationBean(){
+        FilterRegistrationBean<XssEscapeServletFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new XssEscapeServletFilter());
+        registrationBean.setOrder(1);
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 }

@@ -36,7 +36,7 @@ public class AdminController {
     @GetMapping("/send/email")
     @ResponseBody
     public String sendEmail(@RequestParam("email") String email) {
-        email = "kwpark96@naver.com";
+        email = "emailconfirm96@gmail.com";
         String code = emailService.sendEmail(email);
         emailAuthenticationRepository.setCode(email, code);
         return code;
@@ -65,7 +65,7 @@ public class AdminController {
     public String register(@ModelAttribute AdminRegisterDto adminRegisterDto, Model model) {
 
         Admin findAdmin = adminRepository.findByEmail(adminRegisterDto.getEmail());
-        if(findAdmin.equals(adminRegisterDto.getEmail())) {
+        if(findAdmin != null) {
             model.addAttribute("type", "registerFail");
             model.addAttribute("message", "중복된 이메일입니다.");
             return "message";

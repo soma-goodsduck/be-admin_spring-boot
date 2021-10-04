@@ -65,7 +65,7 @@
             var emailBtn = document.getElementById("emailBtn");
             emailBtn.setAttribute("disabled", true);
 
-            var time = 180;
+            var time = 3000;
             var min = "";
             var sec = "";
             var timer = setInterval(function() {
@@ -118,9 +118,10 @@
                 newForm.innerHTML = html;
 
                 var emailForm = document.getElementById("emailForm");
-                var codeForm = document.getElementById("codeForm");
-                emailForm.removeChild(codeForm);
+                // var codeForm = document.getElementById("codeForm");
+                // emailForm.removeChild(codeForm);
                 emailForm.appendChild(newForm);
+                document.getElementById("timer").remove();
 
                 var email = document.getElementById("email");
                 email.setAttribute("readonly", true);

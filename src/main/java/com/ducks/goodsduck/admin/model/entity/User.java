@@ -42,8 +42,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<UserIdolGroup> userIdolGroups = new ArrayList<>();
 
-    public void levelUp() {
-        this.level++;
-        this.exp -= 100;
+    public void increaseReportCount() {
+        this.reportCount++;
     }
 }

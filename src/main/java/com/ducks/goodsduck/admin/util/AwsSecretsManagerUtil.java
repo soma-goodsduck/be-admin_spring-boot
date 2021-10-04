@@ -6,11 +6,15 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.secretsmanager.AWSSecretsManager;
 import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
 import com.amazonaws.services.secretsmanager.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+
 import java.security.InvalidParameterException;
 import java.util.Base64;
 
@@ -26,7 +30,6 @@ public class AwsSecretsManagerUtil {
 
         // Create a Secrets Manager client
         AWSSecretsManager client;
-
         if(accessKeySecretManager.equals("Invalid")) {
             client = AWSSecretsManagerClientBuilder.standard()
                     .withCredentials(new DefaultAWSCredentialsProviderChain())

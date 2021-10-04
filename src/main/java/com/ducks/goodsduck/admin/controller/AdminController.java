@@ -71,6 +71,12 @@ public class AdminController {
             return "message";
         }
 
+        if(!emailAuthenticationRepository.getCode(adminRegisterDto.getEmail()).equals(adminRegisterDto.getCode())) {
+            model.addAttribute("type", "registerFail");
+            model.addAttribute("message", "인증코드가 올바르지 않습니다.");
+            return "message";
+        }
+
         Admin admin = new Admin(adminRegisterDto.getEmail());
         String encodedPassword = passwordEncoder.encode(adminRegisterDto.getPassword());
         admin.setPassword(encodedPassword);

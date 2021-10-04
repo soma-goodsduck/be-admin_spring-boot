@@ -1,5 +1,6 @@
 package com.ducks.goodsduck.admin.service;
 
+import com.ducks.goodsduck.admin.util.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,6 +13,9 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailService {
+
+    String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+    String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
 
     private final JavaMailSender emailSender;
 

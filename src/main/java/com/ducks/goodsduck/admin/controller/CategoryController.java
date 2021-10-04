@@ -30,6 +30,7 @@ public class CategoryController {
     private final CategoryRepository categoryRepository;
     private final ItemCategoryRepository itemCategoryRepository;
     private final PostCategoryRepository postCategoryRepository;
+    private final CommunityCategoryRepository communityCategoryRepository;
     private final UserReportCategoryRepository userReportCategoryRepository;
     private final ItemReportCategoryRepository itemReportCategoryRepository;
     private final PostReportCategoryRepository postReportCategoryRepository;
@@ -55,6 +56,17 @@ public class CategoryController {
                     .collect(Collectors.toList());
         model.addAttribute("categories", categories);
         model.addAttribute("type", "post");
+        return "category_list";
+    }
+
+    // FEAT : 커뮤니티 메뉴 카테고리 리스트
+    @GetMapping("/category/community")
+    public String getCommunityCategories(Model model) {
+        List<CommunityCategory> categories = communityCategoryRepository.findAll()
+                .stream()
+                .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
+        model.addAttribute("type", "community");
         return "category_list";
     }
 
@@ -123,6 +135,8 @@ public class CategoryController {
             model.addAttribute("title", "굿즈 카테고리 추가");
         } else if(categoryType.equals("post")) {
             model.addAttribute("title", "포스트 카테고리 추가");
+        } else if(categoryType.equals("community")) {
+            model.addAttribute("title", "커뮤니티 메뉴 카테고리 추가");
         } else if(categoryType.equals("user-report")) {
             model.addAttribute("title", "유저 신고 카테고리 추가");
         } else if(categoryType.equals("item-report")) {
@@ -149,6 +163,10 @@ public class CategoryController {
         else if(categoryType.equals("post")) {
             PostCategory postCategory = new PostCategory(categoryAdd.getName());
             postCategoryRepository.save(postCategory);
+        }
+        else if(categoryType.equals("community")) {
+            CommunityCategory communityCategory = new CommunityCategory(categoryAdd.getName());
+            communityCategoryRepository.save(communityCategory);
         }
         else if(categoryType.equals("user-report")) {
             UserReportCategory userReportCategory = new UserReportCategory(categoryAdd.getName());
@@ -191,6 +209,8 @@ public class CategoryController {
             model.addAttribute("title", "굿즈 카테고리 수정");
         } else if(categoryType.equals("post")) {
             model.addAttribute("title", "포스트 카테고리 수정");
+        } else if(categoryType.equals("community")) {
+            model.addAttribute("title", "커뮤니티 메뉴 카테고리 수정");
         } else if(categoryType.equals("user-report")) {
             model.addAttribute("title", "유저 신고 카테고리 수정");
         } else if(categoryType.equals("item-report")) {

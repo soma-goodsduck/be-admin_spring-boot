@@ -13,6 +13,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.ducks.goodsduck.admin.model.entity.Image.Image;
+import com.ducks.goodsduck.admin.model.enums.ImageType;
 import com.ducks.goodsduck.admin.util.AwsSecretsManagerUtil;
 import com.ducks.goodsduck.admin.util.PropertyUtil;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
 import org.json.JSONObject;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -40,12 +43,58 @@ import java.util.UUID;
 @Slf4j
 public class ImageUploadService {
 
+    private AmazonS3 s3Client;
     private static final JSONObject secret = AwsSecretsManagerUtil.getSecret();
 
     private static String accessKeyS3 = secret.getString("cloud.aws.credentials.accessKeyS3");
     private static String secretKeyS3 = secret.getString("cloud.aws.credentials.secretKeyS3");
     private static String region = secret.getString("cloud.aws.region.static");
     private static String itemS3Bucket = secret.getString("cloud.aws.s3.itemBucket");
+    private static String profileS3Bucket = secret.getString("cloud.aws.s3.profileBucket");
+    private static String chatS3Bucket = secret.getString("cloud.aws.s3.chatBucket");
+    private static String postS3Bucket = secret.getString("cloud.aws.s3.postBucket");
+
+    @PostConstruct
+    public void setS3Client() {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeyS3, secretKeyS3);
+        s3Client = AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                .withRegion(region)
+                .build();
+    }
+
+    public Boolean deleteImage(Image image, ImageType imageType) {
+
+        String uploadName = image.getUploadName();
+
+        try {
+            if(imageType.equals(ImageType.ITEM)) {
+                boolean isExistObject = s3Client.doesObjectExist(itemS3Bucket, uploadName);
+                if (isExistObject) {
+                    s3Client.deleteObject(itemS3Bucket, uploadName);
+                }
+            } else if(imageType.equals(ImageType.PROFILE)) {
+                boolean isExistObject = s3Client.doesObjectExist(profileS3Bucket, uploadName);
+                if (isExistObject) {
+                    s3Client.deleteObject(profileS3Bucket, uploadName);
+                }
+            } else if(imageType.equals(ImageType.CHAT)) {
+                boolean isExistObject = s3Client.doesObjectExist(chatS3Bucket, uploadName);
+                if (isExistObject) {
+                    s3Client.deleteObject(chatS3Bucket, uploadName);
+                }
+            }else if(imageType.equals(ImageType.POST)) {
+                boolean isExistObject = s3Client.doesObjectExist(postS3Bucket, uploadName);
+                if (isExistObject) {
+                    s3Client.deleteObject(postS3Bucket, uploadName);
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public List<Image> uploadImages(List<MultipartFile> multipartFiles) throws IOException, ImageProcessingException, MetadataException {
 
@@ -68,7 +117,7 @@ public class ImageUploadService {
 
         // S3 셋팅
         AWSCredentials awsCredentials = new BasicAWSCredentials(accessKeyS3, secretKeyS3);
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+        s3Client = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(region)
                 .build();

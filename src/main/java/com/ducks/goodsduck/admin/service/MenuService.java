@@ -10,6 +10,7 @@ import com.ducks.goodsduck.admin.repository.idol.IdolGroupRepository;
 import com.ducks.goodsduck.admin.repository.ItemRepository;
 import com.ducks.goodsduck.admin.repository.PostRepository;
 import com.ducks.goodsduck.admin.repository.UserRepository;
+import com.ducks.goodsduck.admin.util.PropertyUtil;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class MenuService {
+
+    String accessKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.accessKeySecretManager");
+    String secretKeySecretManager = PropertyUtil.getProperty("cloud.aws.credentials.secretKeySecretManager");
 
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
@@ -38,7 +42,6 @@ public class MenuService {
         model.addAttribute("postCount", postRepository.findAll().size());
         model.addAttribute("idolGroupCount", idolGroupRepository.findAll().size());
 
-        // TODO : Redis
         List<IdolGroupStatistic> idolGroupStatistics = getIdolGroupStatistics(itemCount);
         List<likeIdolGroupStatistic> likeIdolGroupStatistics = getLikeIdolGroupStatistics(userCount);
 

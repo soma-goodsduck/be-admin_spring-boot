@@ -67,15 +67,12 @@ public class MenuController {
 
     @GetMapping("/items")
     public String getItems(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Long totalCount = itemRepository.count();
-        List<ItemDto> itemDtos = itemRepository.findAll(pageable)
-                .stream()
-                .filter(item -> item.getDeletedAt() == null)
-                .map(item -> new ItemDto(item))
-                .collect(Collectors.toList());
+//        Long totalCount = itemRepository.count();
+        Page<ItemDto> itemDtos = itemRepository.findAllWithPageable(pageable)
+                .map(item -> new ItemDto(item));
 
-        Page<ItemDto> items = new PageImpl<>(itemDtos, pageable, totalCount);
-        model.addAttribute("items", items);
+//        Page<ItemDto> items = new PageImpl<>(itemDtos, pageable, totalCount);
+        model.addAttribute("items", itemDtos);
         return "item_list";
     }
 
@@ -107,6 +104,7 @@ public class MenuController {
         List<CategoryDto> categories = new ArrayList<>();
         categories.add(new CategoryDto("item", "굿즈"));
         categories.add(new CategoryDto("post", "포스트"));
+        categories.add(new CategoryDto("community", "커뮤니티 메뉴"));
         categories.add(new CategoryDto("user-report", "유저 신고"));
         categories.add(new CategoryDto("item-report", "굿즈 신고"));
         categories.add(new CategoryDto("chat-report", "채팅 신고"));

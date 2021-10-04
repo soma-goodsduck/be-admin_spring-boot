@@ -11,7 +11,7 @@ import java.time.Duration;
 public class EmailAuthenticationRepository {
 
     private final String PREFIX = "email:";
-    private final int LIMIT_TIME = 5 * 60;
+    private final int LIMIT_TIME = 60 * 30;
 
     private final StringRedisTemplate stringRedisTemplate;
 

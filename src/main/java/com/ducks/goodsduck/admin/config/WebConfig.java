@@ -17,7 +17,6 @@ public class WebConfig {
         filterRegistrationBean.setFilter(new LoginCheckFilter());
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.addUrlPatterns("/*");
-
         return filterRegistrationBean;
     }
 
@@ -25,7 +24,7 @@ public class WebConfig {
     public FilterRegistrationBean<XssEscapeServletFilter> getFilterRegistrationBean(){
         FilterRegistrationBean<XssEscapeServletFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new XssEscapeServletFilter());
-        registrationBean.setOrder(1);
+        registrationBean.setOrder(2);
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
     }

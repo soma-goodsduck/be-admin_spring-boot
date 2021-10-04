@@ -38,6 +38,7 @@
                         <th scope="col">종류</th>
                         <th scope="col">날짜</th>
                         <th scope="col">처리</th>
+                        <th scope="col">삭제</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,8 +52,13 @@
                         <td th:text="${report.reportType}">ReportType</td>
                         <td th:text="${report.reportDate}">ReportDate</td>
                         <td>
-                            <button class="btn btn-danger" id="editBtn" th:onclick="'location.href=\'/idol-group/edit/'+${report.id}+'\''">
+                            <button class="btn btn-warning" id="reportBtn" th:onclick="'checkReport('+${report.id}+')'">
                                 <i class="fas fa-bullhorn"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" id="deleteBtn" th:onclick="'deleteReport('+${report.id}+')'">
+                                <i class="far fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
@@ -113,6 +119,50 @@
 <script layout:fragment="script" th:inline="javascript">
     function erase() {
         document.getElementById("search").value=null;
+    }
+
+    function deleteReport(reportId) {
+        if(confirm("신고를 삭제하시겠습니까?")) {
+            $.ajax({
+                type: "get",
+                url: "/report/delete/" + reportId,
+            })
+            .done(function(data) {
+                if(data.success == 1) {
+                    $("#" + reportId).hide();
+                    document.location.reload(true);
+                } else {
+                    alert("신고 삭제에 실패했습니다.");
+                }
+            })
+            .fail(function(data, error) {
+                console.log(error);
+            })
+        } else {
+            return false;
+        }
+    }
+
+    function checkReport(reportId) {
+        if(confirm("신고를 처리하시겠습니까?")) {
+            $.ajax({
+                type: "get",
+                url: "/report/check/" + reportId,
+            })
+            .done(function(data) {
+                if(data.success == 1) {
+                    $("#" + reportId).hide();
+                    document.location.reload(true);
+                } else {
+                    alert("신고 처리에 실패했습니다.");
+                }
+            })
+            .fail(function(data, error) {
+                console.log(error);
+            })
+        } else {
+            return false;
+        }
     }
 </script>
 

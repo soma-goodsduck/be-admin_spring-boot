@@ -1,10 +1,12 @@
 package com.ducks.goodsduck.admin.controller;
 
+import com.ducks.goodsduck.admin.model.dto.CheckDto;
 import com.ducks.goodsduck.admin.model.dto.ReportDto;
 import com.ducks.goodsduck.admin.model.dto.UserDto;
 import com.ducks.goodsduck.admin.model.entity.User;
 import com.ducks.goodsduck.admin.repository.ReportRepository;
 import com.ducks.goodsduck.admin.repository.UserRepository;
+import com.ducks.goodsduck.admin.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +33,7 @@ public class ReportController {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
+    private final ReportService reportService;
 
     // FEAT : 신고 검색
     @GetMapping("/report")
@@ -124,5 +129,21 @@ public class ReportController {
                 return "report_list";
             }
         }
+    }
+
+    // FEAT : 신고 삭제
+    @GetMapping("/report/delete/{reportId}")
+    @ResponseBody
+    public CheckDto deleteByReportId(@PathVariable("reportId") Long reportId) {
+        Long success = reportService.delete(reportId);
+        return new CheckDto(success);
+    }
+
+    // FEAT : 신고 처리
+    @GetMapping("/report/check/{reportId}")
+    @ResponseBody
+    public CheckDto checkReport(@PathVariable("reportId") Long reportId) {
+        Long success = reportService.check(reportId);
+        return new CheckDto(success);
     }
 }

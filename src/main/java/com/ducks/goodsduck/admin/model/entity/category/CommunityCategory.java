@@ -1,0 +1,20 @@
+package com.ducks.goodsduck.admin.model.entity.category;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DiscriminatorValue("Community")
+public class CommunityCategory extends Category {
+
+    public CommunityCategory(String name) {
+        super(name);
+    }
+}

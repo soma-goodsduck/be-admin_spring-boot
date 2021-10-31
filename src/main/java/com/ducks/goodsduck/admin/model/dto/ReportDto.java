@@ -17,6 +17,7 @@ public class ReportDto {
     private String categoryName;
     private String reportDate;
     private String reportType;
+    private String reportedId;
 
     public ReportDto(Report report) {
         this.id = report.getId();

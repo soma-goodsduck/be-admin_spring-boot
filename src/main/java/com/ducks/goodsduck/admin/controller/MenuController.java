@@ -3,15 +3,12 @@ package com.ducks.goodsduck.admin.controller;
 import com.ducks.goodsduck.admin.model.dto.*;
 import com.ducks.goodsduck.admin.model.dto.idol.IdolGroupDto;
 import com.ducks.goodsduck.admin.model.dto.idol.IdolMemberDto;
-import com.ducks.goodsduck.admin.model.entity.Item;
 import com.ducks.goodsduck.admin.model.entity.User;
 import com.ducks.goodsduck.admin.repository.*;
-import com.ducks.goodsduck.admin.repository.category.ItemCategoryRepository;
 import com.ducks.goodsduck.admin.repository.idol.IdolGroupRepository;
 import com.ducks.goodsduck.admin.repository.idol.IdolMemberRepository;
-import com.ducks.goodsduck.admin.service.ImageUploadService;
+import com.ducks.goodsduck.admin.repository.report.*;
 import com.ducks.goodsduck.admin.service.MenuService;
-import com.ducks.goodsduck.admin.util.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,6 +40,11 @@ public class MenuController {
     private final IdolGroupRepository idolGroupRepository;
     private final IdolMemberRepository idolMemberRepository;
     private final ReportRepository reportRepository;
+    private final ItemReportRepository itemReportRepository;
+    private final PostReportRepository postReportRepository;
+    private final CommentReportRepository commentReportRepository;
+    private final ChatReportRepository chatReportRepository;
+    private final UserReportRepository userReportRepository;
     private final NoticeRepository noticeRepository;
 
     @GetMapping("/")
@@ -74,6 +75,38 @@ public class MenuController {
 //        Page<ItemDto> items = new PageImpl<>(itemDtos, pageable, totalCount);
         model.addAttribute("items", itemDtos);
         return "item_list";
+    }
+
+    @GetMapping("/reports")
+    public String getReports(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+//        Long totalCount = reportRepository.count();
+        Page<ReportDto> reportDtos = reportRepository.findAllWithPageable(pageable)
+                .map(report -> {
+                    ReportDto reportDto = new ReportDto(report);
+                    reportDto.setReceiver(new UserDto(report.getReceiver()));
+                    User sender = userRepository.findById(report.getSenderId()).get();
+                    reportDto.setSender(new UserDto(sender));
+                    reportDto.setCategoryName(report.getReportCategory().getName());
+                    reportDto.setReportType(report.getDecriminatorValue());
+
+                    if(report.getDecriminatorValue().equals("ItemReport")) {
+                        reportDto.setReportedId(Long.toString(itemReportRepository.findById(report.getId()).get().getItemId()));
+                    } else if(report.getDecriminatorValue().equals("UserReport")) {
+                        reportDto.setReportedId(Long.toString(userReportRepository.findById(report.getId()).get().getUserId()));
+                    } else if(report.getDecriminatorValue().equals("ChatReport")) {
+                        reportDto.setReportedId(chatReportRepository.findById(report.getId()).get().getChatId());
+                    } else if(report.getDecriminatorValue().equals("PostReport")) {
+                        reportDto.setReportedId(Long.toString(postReportRepository.findById(report.getId()).get().getPostId()));
+                    } else if(report.getDecriminatorValue().equals("CommentReport")) {
+                        reportDto.setReportedId(Long.toString(commentReportRepository.findById(report.getId()).get().getCommentId()));
+                    }
+
+                    return reportDto;
+                });
+
+//        Page<ReportDto> reports = new PageImpl<>(reportDtos, pageable, totalCount);
+        model.addAttribute("reports", reportDtos);
+        return "report_list";
     }
 
     @GetMapping("/idol-groups")
@@ -113,27 +146,6 @@ public class MenuController {
 
         model.addAttribute("categories", categories);
         return "category_select";
-    }
-
-    @GetMapping("/reports")
-    public String getReports(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        Long totalCount = reportRepository.count();
-        List<ReportDto> reportDtos = reportRepository.findAll()
-                .stream()
-                .map(report -> {
-                    ReportDto reportDto = new ReportDto(report);
-                    reportDto.setReceiver(new UserDto(report.getReceiver()));
-                    User sender = userRepository.findById(report.getSenderId()).get();
-                    reportDto.setSender(new UserDto(sender));
-                    reportDto.setCategoryName(report.getReportCategory().getName());
-                    reportDto.setReportType(report.getDecriminatorValue());
-                    return reportDto;
-                })
-                .collect(Collectors.toList());
-
-        Page<ReportDto> reports = new PageImpl<>(reportDtos, pageable, totalCount);
-        model.addAttribute("reports", reports);
-        return "report_list";
     }
 
     @GetMapping("/notices")

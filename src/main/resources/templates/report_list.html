@@ -36,6 +36,7 @@
 <!--                        <th scope="col">신고대상 ID</th>-->
                         <th scope="col">카테고리</th>
                         <th scope="col">종류</th>
+                        <th scope="col">해당번호</th>
                         <th scope="col">날짜</th>
                         <th scope="col">처리</th>
                         <th scope="col">삭제</th>
@@ -50,6 +51,7 @@
 <!--                        <td th:text="${report.receiver.id}">ReceiverID</td>-->
                         <td th:text="${report.categoryName}">CategoryName</td>
                         <td th:text="${report.reportType}">ReportType</td>
+                        <td th:text="${report.reportedId}">ReportId</td>
                         <td th:text="${report.reportDate}">ReportDate</td>
                         <td>
                             <button class="btn btn-warning" id="reportBtn" th:onclick="'checkReport('+${report.id}+')'">

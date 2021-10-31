@@ -4,7 +4,7 @@ import com.ducks.goodsduck.admin.model.dto.CheckDto;
 import com.ducks.goodsduck.admin.model.dto.ReportDto;
 import com.ducks.goodsduck.admin.model.dto.UserDto;
 import com.ducks.goodsduck.admin.model.entity.User;
-import com.ducks.goodsduck.admin.repository.ReportRepository;
+import com.ducks.goodsduck.admin.repository.report.ReportRepository;
 import com.ducks.goodsduck.admin.repository.UserRepository;
 import com.ducks.goodsduck.admin.service.ReportService;
 import lombok.RequiredArgsConstructor;

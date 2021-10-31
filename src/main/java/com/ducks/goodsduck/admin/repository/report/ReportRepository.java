@@ -1,4 +1,4 @@
-package com.ducks.goodsduck.admin.repository;
+package com.ducks.goodsduck.admin.repository.report;
 
 import com.ducks.goodsduck.admin.model.entity.report.Report;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReportRepository extends JpaRepository<Report, Long> {
+public interface ReportRepository extends JpaRepository<Report, Long>, ReportRepositoryCustom {
 
     List<Report> findBySenderId(Long senderId, Pageable pageable);
 

@@ -2,7 +2,7 @@ package com.ducks.goodsduck.admin.service;
 
 import com.ducks.goodsduck.admin.model.entity.User;
 import com.ducks.goodsduck.admin.model.entity.report.Report;
-import com.ducks.goodsduck.admin.repository.ReportRepository;
+import com.ducks.goodsduck.admin.repository.report.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -173,7 +173,7 @@ public class MenuController {
     }
 
     @GetMapping("/test")
-    public String check() throws IOException, InterruptedException {
+    public void check() throws IOException, InterruptedException {
 
         Process process = null;
         String input = "0080c02c-9811-42ad-98cb-9a6ce66dcc50.GIF";
@@ -203,7 +203,5 @@ public class MenuController {
                 process.destroy();
             }
         }
-
-        return "user_list";
     }
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -168,5 +169,40 @@ public class MenuController {
         model.addAttribute("type", "logout");
         model.addAttribute("message", "로그아웃이 완료되었습니다.");
         return "message";
+    }
+
+    @GetMapping("/test")
+    public String check() throws IOException, InterruptedException {
+
+        Process process = null;
+        String input = "0080c02c-9811-42ad-98cb-9a6ce66dcc50.GIF";
+        String output = "videotest.mp4";
+
+        String download[] = { "sudo", "aws", "s3", "cp", "s3://goodsduck-post-image/" + input, "/test"};
+        String cmd[] = { "ffmpeg", "-i", input, "-movflags", "faststart", "-pix_fmt", "yuv420p", "-vf", "\"scale=trunc(iw/2)*2:trunc(ih/2)*2\"", output };
+        String delete[] = { "sudo", "rm", "-r", input};
+        String upload[] = { "sudo", "aws", "s3", "cp", output, "s3://function-temp"};
+
+        for(int i = 1; i <= 4; i++) {
+            try {
+
+                if(i == 1) process = Runtime.getRuntime().exec(download);
+                else if(i == 2) process = Runtime.getRuntime().exec(cmd);
+                else if(i == 3) process = Runtime.getRuntime().exec(delete);
+                else if(i == 4) process = Runtime.getRuntime().exec(upload);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                process.getErrorStream().close();
+                process.getInputStream().close();
+                process.getOutputStream().close();
+
+                process.waitFor();
+                process.destroy();
+            }
+        }
+
+        return "1";
     }
 }

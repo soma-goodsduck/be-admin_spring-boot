@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,8 +173,10 @@ public class MenuController {
         return "message";
     }
 
+
     @GetMapping("/test")
-    public void check() throws IOException, InterruptedException {
+    @ResponseBody
+    public String check() throws IOException, InterruptedException {
 
         Process process = null;
         String input = "0080c02c-9811-42ad-98cb-9a6ce66dcc50.GIF";
@@ -203,5 +206,7 @@ public class MenuController {
                 process.destroy();
             }
         }
+
+        return "Hi";
     }
 }
